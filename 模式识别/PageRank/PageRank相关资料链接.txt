@@ -1,0 +1,11 @@
+
+解剖Google搜索原理：The Anatomy of a Large-Scale Hypertextual Web Search Engine（中文）
+https://blog.csdn.net/chief1985/article/details/1593409
+
+
+市值250亿的特征向量——谷歌背后的线性代数（中文）
+https://blog.csdn.net/qunnie_yi/article/details/80129358
+
+
+学好线性代数，成为亿万富翁不是梦
+https://mp.weixin.qq.com/s/63rB0OqInS-GXPW5LMRYlQ
