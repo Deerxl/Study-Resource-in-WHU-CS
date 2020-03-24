@@ -1,0 +1,158 @@
+Connectionless Communication
+
+Connectionless communication behaves differently than connection-oriented communication, so the method for sending and receiving data is substantially different. First we'll discuss the receiver (or server, if you prefer) because the connectionless receiver requires little change when compared with the connection-oriented servers. After that we'll look at the sender.
+
+In IP, connectionless communication is accomplished through UDP/IP. UDP doesn't guarantee reliable data transmission and is capable of sending data to multiple destinations and receiving it from multiple sources. For example, if a client sends data to a server, the data is transmitted immediately regardless of whether the server is ready to receive it. If the server receives data from the client, it doesn't acknowledge the receipt. Data is transmitted using datagrams, which are discrete message packets.
+
+Receiver
+The steps in the process of receiving data on a connectionless socket are simple. First, create the socket with either socket or WSASocket. Next, bind the socket to the interface on which you wish to receive data. This is done with the bind function (exactly like the session-oriented example). The difference with connectionless sockets is that you do not call listen or accept. Instead, you simply wait to receive the incoming data. Because there is no connection, the receiving socket can receive datagrams originating from any machine on the network. The simplest of the receive functions is recvfrom, which is defined as
+
+int recvfrom(
+    SOCKET s,
+    char FAR* buf,
+    int len,
+    int flags,
+    struct sockaddr FAR* from,
+    int FAR* fromlen
+);
+The first four parameters are the same as recv, including the possible values for flags: MSG_OOB and MSG_PEEK. The same warnings for using the MSG_PEEK flag also apply to connectionless sockets. The from parameter is a SOCKADDR structure for the given protocol of the listening socket, with fromlen pointing to the size of the address structure. When the API call returns with data, the SOCKADDR structure is filled with the address of the workstation that sent the data.
+
+The Winsock 2 version of the recvfrom function is WSARecvFrom. The prototype for this function is
+
+int WSARecvFrom(
+    SOCKET s,
+    LPWSABUF lpBuffers,
+    DWORD dwBufferCount,
+    LPDWORD lpNumberOfBytesRecvd,
+    LPDWORD lpFlags,
+    struct sockaddr FAR * lpFrom,
+    LPINT lpFromlen,
+    LPWSAOVERLAPPED lpOverlapped,
+    LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+);
+The difference is the use of WSABUF structures for receiving the data. You can supply one or more WSABUF buffers to WSARecvFrom with dwBufferCount indicating this. By supplying multiple buffers, scatter-gather I/O is possible. The total number of bytes read is returned in lpNumberOfBytesRecvd. When you call WSARecvFrom, the lpFlags parameter can be 0 for no options, MSG_OOB, MSG_PEEK, or MSG_PARTIAL. These flags can be bitwise OR together. If MSG_PARTIAL is specified when the function is called, the provider knows to return data even if only a partial message has been received. Upon return, the flag MSG_PARTIAL is set if only a partial message was received. Upon return, WSARecvFrom will store the address of the sending machine in the lpFrom parameter (a pointer to a SOCKADDR structure). Again, lpFromLen points to the size of the SOCKADDR structure, except that in this function it is a pointer to a DWORD. The last two parameters, lpOverlapped and lpCompletionRoutine, are used for overlapped I/O (which we'll discuss in Chapter 5).
+
+Another method of receiving (and sending) data on a connectionless socket is to establish a connection. This might seem strange, but it's not quite what it sounds like. Once a connectionless socket is created, you can call connect or WSAConnect with the SOCKADDR parameter set to the address of the remote machine to communicate with. No actual connection is made, however. The socket address passed into a connect function is associated with the socket so recv and WSARecv can be used instead of recvfrom or WSARecvFrom because the data's origin is known. The capability to connect a datagram socket is handy if you intend to communicate with only one endpoint at a time in your application.
+
+The following code sample demonstrates how to construct a simple UDP receiver application. You will find a complete version of this application in a file named UDPRECEIVER on the companion CD.
+
+#include <winsock2.h>
+
+void main(void)
+{
+   WSADATA              wsaData;
+   SOCKET               ReceivingSocket;
+   SOCKADDR_IN          ReceiverAddr;
+   int                  Port = 5150;
+   char                 ReceiveBuf[1024];
+   int                  BufLength = 1024;
+   SOCKADDR_IN          SenderAddr;
+   int                  SenderAddrSize = sizeof(SenderAddr);
+   
+   // Initialize Winsock version 2.2
+
+   WSAStartup(MAKEWORD(2,2), &wsaData);
+   
+      // Create a new socket to receive datagrams on.
+ 
+      ReceivingSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+      // Set up a SOCKADDR_IN structure that will tell bind that we
+      // want to receive datagrams from all interfaces using port
+      // 5150.
+
+      ReceiverAddr.sin_family = AF_INET;
+      ReceiverAddr.sin_port = htons(Port);    
+      ReceiverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+      // Associate the address information with the socket using bind.
+
+      bind(ReceivingSocket, (SOCKADDR *)&SenderAddr, sizeof(SenderAddr));
+
+   // At this point you can receive datagrams on your bound socket.
+   recvfrom(ReceivingSocket, ReceiveBuf, BufLength, 0,
+            (SOCKADDR *)&SenderAddr, &SenderAddrSize);
+
+   // When your application is finished receiving datagrams close
+   // the socket.
+
+   closesocket(ReceivingSocket);
+
+   // When your application is finished call WSACleanup.
+
+   WSACleanup();
+}
+Now that you understand how to construct a receiver that can receive a datagram, we will describe how to construct a sender.
+
+Sender
+There are two options to send data on a connectionless socket. The first, and simplest, is to create a socket and call either sendto or WSASendTo. We'll cover sendto first, which is defined as
+
+int sendto(
+    SOCKET s,
+    const char FAR * buf,
+    int len,
+    int flags,
+    const struct sockaddr FAR * to,
+    int tolen
+);
+The parameters are the same as recvfrom except that buf is the buffer of data to send and len indicates how many bytes to send. Also, the to parameter is a pointer to a SOCKADDR structure with the destination address of the workstation to receive the data. The Winsock 2 function WSASendTo can also be used. This function is defined as
+
+int WSASendTo(
+    SOCKET s,                                               
+    LPWSABUF lpBuffers,                                     
+    DWORD dwBufferCount,                                    
+    LPDWORD lpNumberOfBytesSent,                            
+    DWORD dwFlags,                                          
+    const struct sockaddr FAR * lpTo,                       
+    int iToLen,                                             
+    LPWSAOVERLAPPED lpOverlapped,                           
+    LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+);
+Again, WSASendTo is similar to its ancestor. This function takes a pointer to one or more WSABUF structures with data to send to the recipient as the lpBuffers parameter, with dwBufferCount indicating how many structures are present. You can send multiple WSABUF structures to enable scatter-gather I/O. Before returning, WSASendTo sets the fourth parameter, lpNumberOfBytesSent, to the number of bytes actually sent to the receiver. The lpTo parameter is a SOCKADDR structure for the given protocol, with the recipient's address. The iToLen parameter is the length of the SOCKADDR structure. The last two parameters, lpOverlapped and lpCompletionRoutine, are used for overlapped I/O (discussed in Chapter 5).
+
+As with receiving data, a connectionless socket can be connected to an endpoint address and data can be sent with send and WSASend. Once this association is established, you cannot go back to using sendto or WSASendTo with an address other than the address passed to one of the connect functions. If you attempt to send data to a different address, the call will fail with WSAEISCONN. The only way to disassociate the socket handle from that destination is to call connect with the destination address of INADDR_ANY.
+
+The following code sample demonstrates how to construct a simple UDP sender application. You will find a complete version of this application on the companion CD in a file named UDPSENDER.
+
+#include <winsock2.h>
+
+void main(void)
+{
+   WSADATA              wsaData;
+   SOCKET               SendingSocket;
+   SOCKADDR_IN          ReceiverAddr;
+   int                  Port = 5150;
+   char                 SendBuf[1024];
+   int                  BufLength = 1024;
+
+   // Initialize Winsock version 2.2
+
+   WSAStartup(MAKEWORD(2,2), &wsaData);
+   
+   // Create a new socket to receive datagrams on.
+ 
+   SendingSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+   
+   // Set up a SOCKADDR_IN structure that will identify who we
+   // will send datagrams to. For demonstration purposes, let's
+   // assume our receiver's IP address is 136.149.3.29 and waits
+   // for datagrams on port 5150.
+
+   ReceiverAddr.sin_family = AF_INET;
+   ReceiverAddr.sin_port = htons(Port);    
+   ReceiverAddr.sin_addr.s_addr = inet_addr("136.149.3.29");
+
+   // Send a datagram to the receiver.
+
+   sendto(SendingSocket, SendBuf, BufLength, 0, 
+          (SOCKADDR *)&ReceiverAddr, sizeof(RecieverAddr));
+		  
+   // When your application is finished sending datagrams close
+   // the socket.
+
+   closesocket(SendingSocket);
+
+   // When your application is finished call WSACleanup.
+
+   WSACleanup();
+}

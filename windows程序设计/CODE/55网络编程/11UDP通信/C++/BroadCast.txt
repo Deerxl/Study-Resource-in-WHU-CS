@@ -1,0 +1,61 @@
+Broadcast Function
+To make our socket broadcast, we need to set the socket option of it as
+shown in the following code. We also need to create a datagram socket
+and fill in the address information so that the data is sent to the broadcast
+address. In this example, we use the address 255.255.255.255,
+which works on all LANs as a broadcast address.
+void Broadcast(char *buf, size_t count)
+{
+// Define on
+const int on = 1;
+// Create a datagram socket
+SOCKET sock;
+sock = socket(AF_INET, SOCK_DGRAM, 0);
+struct sockaddr_in servaddr;
+socklen_t len;
+// Use the example broadcast address
+u_long inetAddr = inet_addr("255.255.255.255");
+// Fill address information structure
+memset(&servaddr, 0, sizeof(struct sockaddr_in));
+servaddr.sin_family = AF_INET;
+servaddr.sin_port = htons(9009);
+servaddr.sin_addr.s_addr = inetAddr;
+len = sizeof(servaddr);
+// Set socket broadcasting option on
+setsockopt(sock, SOL_SOCKET, SO_BROADCAST,
+(const char *) &on, sizeof(on));
+// Broadcast!
+sendto(sock, buf, count, 0,
+(struct sockaddr *) &servaddr, len);
+}
+Now let¡¯s discuss the code.
+First, we must define the socket option switch in a variable because
+the setsockopt function always retrieves the switch from a variable.
+// Define on
+const int on = 1;
+Then we create a normal datagram socket to be used in the broadcasting
+operation.
+// Create a datagram socket
+SOCKET sock;
+sock = socket(AF_INET, SOCK_DGRAM, 0);
+Next, the address information structure must be filled with the correct
+information. The IP address is set to the example broadcast address ¡ª
+255.255.255.255. The port number is set to 9009, assuming that is the
+port that all the recipients use.
+// Use the example broadcast address
+u_long inetAddr = inet_addr("255.255.255.255");
+// Fill address information structure
+memset(&servaddr, 0, sizeof(struct sockaddr_in));
+servaddr.sin_family = AF_INET;
+servaddr.sin_port = htons(9009);
+servaddr.sin_addr.s_addr = inetAddr;
+And finally, the socket option SO_BROADCAST is set on and we broadcast
+the message using the normal sendto function.
+// Set socket broadcasting option on
+setsockopt(sock, SOL_SOCKET, SO_BROADCAST,
+(const char *) &on, sizeof(on));
+// Broadcast!
+sendto(sock, buf, count, 0,
+(struct sockaddr *) &servaddr, len);
+
+

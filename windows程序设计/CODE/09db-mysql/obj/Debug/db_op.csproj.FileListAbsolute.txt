@@ -1,0 +1,9 @@
+E:\BOOK\c_pro\db_op\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\db_op\obj\Debug\db_op.Properties.Resources.resources
+E:\BOOK\c_pro\db_op\obj\Debug\db_op.csproj.GenerateResource.Cache
+E:\BOOK\c_pro\db_op\bin\Debug\db_op.exe
+E:\BOOK\c_pro\db_op\bin\Debug\db_op.pdb
+E:\BOOK\c_pro\db_op\obj\Debug\db_op.Form1.resources
+E:\BOOK\c_pro\db_op\obj\Debug\db_op.exe
+E:\BOOK\c_pro\db_op\obj\Debug\db_op.pdb
+E:\BOOK\c_pro\db_op\bin\Debug\db_op.exe.config

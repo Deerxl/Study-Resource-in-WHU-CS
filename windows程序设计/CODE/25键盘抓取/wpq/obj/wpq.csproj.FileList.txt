@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\wpq.Form1.resources
+obj\Debug\wpq.Properties.Resources.resources
+obj\Debug\wpq.csproj.GenerateResource.Cache
+bin\Debug\wpq.exe
+bin\Debug\wpq.pdb
+obj\Debug\wpq.exe
+obj\Debug\wpq.pdb

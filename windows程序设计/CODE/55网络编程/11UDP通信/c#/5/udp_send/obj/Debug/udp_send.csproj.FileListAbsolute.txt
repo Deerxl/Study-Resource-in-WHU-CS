@@ -1,0 +1,16 @@
+D:\qt\udp_send\bin\Debug\udp_send.exe
+D:\qt\udp_send\bin\Debug\udp_send.pdb
+D:\qt\udp_send\obj\Debug\ResolveAssemblyReference.cache
+D:\qt\udp_send\obj\Debug\udp_send.Form_send.resources
+D:\qt\udp_send\obj\Debug\udp_send.Properties.Resources.resources
+D:\qt\udp_send\obj\Debug\udp_send.csproj.GenerateResource.Cache
+D:\qt\udp_send\obj\Debug\udp_send.exe
+D:\qt\udp_send\obj\Debug\udp_send.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\udp_send.exe
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\udp_send.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\bin\Debug\udp_send.exe
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\bin\Debug\udp_send.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\ResolveAssemblyReference.cache
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\udp_send.Form_send.resources
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\udp_send.Properties.Resources.resources
+D:\09-10下\网络程序设计\11UDP通信\c#\5\udp_send\obj\Debug\udp_send.csproj.GenerateResource.Cache

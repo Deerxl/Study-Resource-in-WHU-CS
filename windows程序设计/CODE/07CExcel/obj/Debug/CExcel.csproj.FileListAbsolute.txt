@@ -1,0 +1,6 @@
+D:\stu\CExcel\obj\Debug\CExcel.csproj.ResolveComReference.cache
+D:\stu\CExcel\CExcel.exe.config
+D:\stu\CExcel\obj\Debug\CExcel.exe
+D:\stu\CExcel\obj\Debug\CExcel.pdb
+D:\stu\CExcel\CExcel.exe
+D:\stu\CExcel\CExcel.pdb

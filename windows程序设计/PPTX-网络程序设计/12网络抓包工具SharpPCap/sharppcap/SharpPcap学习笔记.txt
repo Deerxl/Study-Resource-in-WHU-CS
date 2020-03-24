@@ -1,0 +1,69 @@
+在做飞信的时候看到nathan2007写的FeitionSniffer(一个用BC++和WinPcap开发的小工具,小巧却很实用),不禁暗暗想自己也能做个类似的东西,以后分析起协议就方便了.上网搜索了一下,发现有人已经用C#把WinPcap的功能进行了封装,开发了SharpPcap.然后看了SharpPcap tutorial,感觉还是挺简单的.顺便做个笔记以后用起来就方便了.
+
+1. 获得网络设备
+由于一个系统的网络设备可能不止一个,因而使用了一个列表类来保存所有的设备,这里使用了一个静态方法进行操作
+/* Retrieve the device list */
+PcapDeviceList devices = SharpPcap.GetAllDevices();
+获取列表后,就能对设备进行操作了,其实设备分为2个子类,一类是NetworkDevice,这个是算是真实的网络设备吧,还有一类是PcapOfflineDevice,这个类是通过读取抓包文件生成的虚拟设备.
+如果是NetworkDevice,那么还有些其他的网络信息,如ip地址,子网掩码等.
+2. 抓包过程
+在选定了一个PcapDevice后,就能使用他的方法进行抓包了.首先要打开设备.
+ //Open the device for capturing
+ //true -- means promiscuous mode
+ //1000 -- means a read wait of 1000ms
+ device.PcapOpen(true, 1000);
+方法提供2个参数,第一个为抓包模式,指明是否抓其他Ip地址的包,类似Hub的功能;第二个是指超时时间,毫秒级.
+下面就能正式抓包了,一共提供了3种方法:
+ device.PcapStartCapture();
+ 异步方式,调用之后立即返回,具体抓下来的包,由PcapOnPacketArrival事件处理.需要停止的时候调用device.PcapStopCapture()进行关闭.
+ device.PcapCapture(int packetCount);
+半同步方式,调用后,直到抓到packetCount数量的包才返回., 具体抓下来的包,由PcapOnPacketArrival事件处理.
+注意:如果传入SharpPcap.INFINITE将不退出,永远都在接收,且程序就停在这个语句了.
+packet=device.PcapGetNextPacket()
+同步方式,调用后直接等待收到的下一个包,并获得该包.
+注意:如果超时,就可能还没有获得包体就退出该过程.这时packet=null,所以使用该方法每次都要对包进行检测.
+
+最后一定要记得,关闭设备.
+
+device.Close();
+3. 包体分析.
+在捕捉到包后,就需要根据实际的包进行转换了. 
+ if(packet is TCPPacket)
+ {
+TCPPacket tcp = (TCPPacket)packet;
+}
+因为这个需要转换的包类型很多,具体都在Tamir.IPLib.Packets里面.按照说明,一直尝试转换是不对的了,需要与过滤机制配合使用,只对自己有用的包分析
+4. 过滤机制
+包过滤是抓包程序的必备机制,要想对某次捕捉进行过滤,就必须在设备打开后,开始抓包前设置设备的过滤参数.
+ //tcpdump filter to capture only TCP/IP packets            
+ string filter = "ip and tcp";
+ //Associate the filter with this capture
+ device.PcapSetFilter( filter );
+注意的是,filter是一个文本,遵循了tcpdump syntax.
+5. 其他
+A. SharpPcap还能保存捕获的包,而且使用起来也很简单.
+保存: 在抓包前设置Dump的文件
+//Open or create a capture output file
+device.PcapDumpOpen( capFile);
+抓到包后,把需要的包保存起来
+ //dump the packet to the file
+    device.PcapDump( packet );
+
+使用:把包文件当作一个脱机设备
+ //Get an offline file pcap device
+device = SharpPcap.GetPcapOfflineDevice( capFile );
+然后这个设备也可以捕捉包,使用起来和真实的一样(当然,不会有超时了就是)
+
+B.对设备直接发包
+相对与捕捉包,也可以发送包.提供了2种方法
+ //Send the packet out the network device,直接发送包
+     device.PcapSendPacket( bytes );
+  //使用设备的发送队列
+device.PcapSendQueue(squeue, true );
+两种显然上面的容易,下面的高效
+
+C.网络流量统计—没看,我暂时也不想用.
+6.总结
+
+主要来说PcapDevice类是整个操作的核心,把它用好了就成.
+

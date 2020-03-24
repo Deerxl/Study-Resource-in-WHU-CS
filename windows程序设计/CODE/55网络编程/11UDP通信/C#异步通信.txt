@@ -1,0 +1,181 @@
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+using System.Text; 
+using System.Net; 
+using System.Net.Sockets; 
+using System.Threading; 
+
+namespace UdpSender 
+{ 
+    public class UdpPosted 
+    { 
+        public void SendCallback(IAsyncResult iar) 
+        { 
+            //UdpClient uc = (UdpClient)iar.AsyncState; 
+            Console.WriteLine("numbers of bytes send and time is {0}",  DateTime.Now.ToString()); 
+        } 
+
+        public void SendMessageUdp(IPAddress ipa, int port,  string message) 
+        { 
+            UdpClient uc = new UdpClient(); 
+            IPEndPoint iep = new IPEndPoint(ipa, port); 
+
+            byte[] sendBytes = Encoding.ASCII.GetBytes(message); 
+            //uc.Ttl = 1; 
+            uc.BeginSend(sendBytes, sendBytes.Length, iep, new AsyncCallback(SendCallback), uc); 
+        } 
+
+        ////定义UDP的发送端 
+        //public static UdpClient uSenderSlot; 
+
+        ////定义所要发送的IP 
+        //public static IPAddress ipa; 
+
+        ////定义所要发送的IPE 
+        //public static IPEndPoint ipe; 
+        
+        ////定义所要发送的范围和端口号 
+        //public UdpPosted(byte [] ipbs, int iport) 
+        //{ 
+        //    ipa = new IPAddress(ipbs); 
+        //    ipe = new IPEndPoint(ipa, iport); 
+
+        //    uSenderSlot = new UdpClient(ipe); 
+        //} 
+
+        //public void SendCallback(IAsyncResult iar) 
+        //{ 
+        //    UdpClient u = (UdpClient)iar.AsyncState; 
+        //    Console.WriteLine("The UdpSender send {0}.",u.EndSend(iar)); 
+        //} 
+
+        //public void PostMsgToTarget(string msg) 
+        //{ 
+        //    Byte[] sendBytes = Encoding.ASCII.GetBytes(msg); 
+        //    uSenderSlot.BeginSend(sendBytes, sendBytes.Length, ipe, new AsyncCallback(SendCallback), uSenderSlot); 
+        //} 
+
+    } 
+
+    class Program 
+    { 
+        static void Main(string[] args) 
+        { 
+            byte [] target = new byte[4]{255,255,255,255}; 
+
+            UdpPosted udpPost = new UdpPosted(); 
+
+            while (true) 
+            { 
+                udpPost.SendMessageUdp(new IPAddress(target), 12000, DateTime.Now.ToString()); 
+                Thread.Sleep(1); 
+            } 
+        } 
+    } 
+} 
+
+
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+using System.Text; 
+using System.Net; 
+using System.Net.Sockets; 
+using System.Threading; 
+
+namespace UdpListener 
+{ 
+    public class MsgReceivedArgs : EventArgs 
+    { 
+        private readonly string recvMsg; 
+
+        public MsgReceivedArgs(string target) 
+        { 
+            recvMsg = target; 
+        } 
+
+        public string RecvMsg 
+        { 
+            get { return recvMsg; } 
+        } 
+    } 
+
+    public class UdpReceived 
+    { 
+        //定义UDP的接收端 
+        public static UdpClient uReceiverSlot; 
+
+        //定义IPEndPoint端 
+        public static IPEndPoint ipEp; 
+
+        //订阅者必须实现的委托 
+        public delegate void MsgReceiverHandler(object sender, MsgReceivedArgs receiveMsg); 
+
+        //控制者对于委托的访问 
+        public event MsgReceiverHandler OnMsgReceived; 
+
+        //生成一个对应端口的UDPClient，监听任意地址所发来的消息。 
+        public UdpReceived(int port) 
+        { 
+            ipEp = new IPEndPoint(IPAddress.Any, port); 
+            uReceiverSlot = new UdpClient(ipEp); 
+        } 
+
+        //UDPClient的异步接收 
+        public  void StartReceive() 
+        { 
+            uReceiverSlot.BeginReceive(new AsyncCallback(ReceiveCallback), ipEp); 
+            Thread.Sleep(System.Threading.Timeout.Infinite); 
+        } 
+
+        //UDPClient异步接收到指令后的函数 
+        public void ReceiveCallback(IAsyncResult iar) 
+        { 
+            IPEndPoint ipe = (IPEndPoint)ipEp; 
+            Byte[] receiveBytes = uReceiverSlot.EndReceive(iar, ref ipe); 
+
+            string receiveMessage = Encoding.ASCII.GetString(receiveBytes); 
+
+            //创建MsgReceivedArgs 对象 传给订阅者 
+            if (receiveBytes.Length > 0) 
+            { 
+                MsgReceivedArgs receiveInformation = new MsgReceivedArgs(receiveMessage); 
+
+                if (OnMsgReceived != null) 
+                { 
+                    OnMsgReceived(this, receiveInformation); 
+                } 
+            } 
+
+            //重新进行接收 
+            uReceiverSlot.BeginReceive(new AsyncCallback(ReceiveCallback), ipEp); 
+        } 
+
+    } 
+
+    public class Tester 
+    { 
+        public void Subscribe(UdpReceived theUdp) 
+        { 
+            theUdp.OnMsgReceived += new UdpReceived.MsgReceiverHandler(theUdp_OnMsgReceived); 
+        } 
+
+        void theUdp_OnMsgReceived(object sender, MsgReceivedArgs receiveMsg) 
+        { 
+            Console.WriteLine("The udpClient received a {0}.", receiveMsg.RecvMsg); 
+        } 
+    } 
+
+    class Program 
+    { 
+        static void Main(string[] args) 
+        { 
+            UdpReceived udpR = new UdpReceived(12000); 
+            Tester test = new Tester(); 
+            test.Subscribe(udpR); 
+
+            udpR.StartReceive(); 
+        } 
+    } 
+} 

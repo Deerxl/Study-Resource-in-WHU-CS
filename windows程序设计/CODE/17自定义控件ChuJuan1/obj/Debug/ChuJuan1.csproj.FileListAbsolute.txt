@@ -1,0 +1,14 @@
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.csprojResolveAssemblyReference.cache
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.csproj.ResolveComReference.cache
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.FrmAddTiXing.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.FrmMain.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.Properties.Resources.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.csproj.GenerateResource.Cache
+F:\stu\ChuJuan1\bin\Debug\ChuJuan1.exe
+F:\stu\ChuJuan1\bin\Debug\ChuJuan1.pdb
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.FrmEditKaoTi.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.exe
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.pdb
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.FrmNewTiKu.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.UserControl1.resources
+F:\stu\ChuJuan1\obj\Debug\ChuJuan1.FrmCtrlImgsEdit.resources

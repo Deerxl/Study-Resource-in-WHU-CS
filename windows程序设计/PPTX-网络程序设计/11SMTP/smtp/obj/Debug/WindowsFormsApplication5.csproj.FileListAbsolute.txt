@@ -1,0 +1,17 @@
+D:\stu\WindowsFormsApplication5\WindowsFormsApplication5.exe.config
+D:\stu\WindowsFormsApplication5\obj\Debug\WindowsFormsApplication5.Form1.resources
+D:\stu\WindowsFormsApplication5\obj\Debug\WindowsFormsApplication5.Properties.Resources.resources
+D:\stu\WindowsFormsApplication5\obj\Debug\WindowsFormsApplication5.csproj.GenerateResource.Cache
+D:\stu\WindowsFormsApplication5\obj\Debug\WindowsFormsApplication5.exe
+D:\stu\WindowsFormsApplication5\obj\Debug\WindowsFormsApplication5.pdb
+D:\stu\WindowsFormsApplication5\WindowsFormsApplication5.exe
+D:\stu\WindowsFormsApplication5\WindowsFormsApplication5.pdb
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\WindowsFormsApplication5.exe.config
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.exe
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.pdb
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.csprojResolveAssemblyReference.cache
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.Form1.resources
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.Properties.Resources.resources
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\obj\Debug\WindowsFormsApplication5.csproj.GenerateResource.Cache
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\WindowsFormsApplication5.exe
+F:\16-17上\网络程序设计\doc\11SMTP\smtp\WindowsFormsApplication5.pdb

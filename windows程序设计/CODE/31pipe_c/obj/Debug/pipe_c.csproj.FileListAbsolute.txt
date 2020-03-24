@@ -1,0 +1,16 @@
+D:\xue\pipe_c\bin\Debug\pipe_c.exe
+D:\xue\pipe_c\bin\Debug\pipe_c.pdb
+D:\xue\pipe_c\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\pipe_c\obj\Debug\pipe_c.Form1.resources
+D:\xue\pipe_c\obj\Debug\pipe_c.Properties.Resources.resources
+D:\xue\pipe_c\obj\Debug\pipe_c.csproj.GenerateResource.Cache
+D:\xue\pipe_c\obj\Debug\pipe_c.exe
+D:\xue\pipe_c\obj\Debug\pipe_c.pdb
+F:\Book\c_pro\31pipe_c\obj\Debug\pipe_c.exe
+F:\Book\c_pro\31pipe_c\obj\Debug\pipe_c.pdb
+F:\Book\c_pro\31pipe_c\bin\Debug\pipe_c.exe
+F:\Book\c_pro\31pipe_c\bin\Debug\pipe_c.pdb
+F:\Book\c_pro\31pipe_c\obj\Debug\ResolveAssemblyReference.cache
+F:\Book\c_pro\31pipe_c\obj\Debug\pipe_c.Form1.resources
+F:\Book\c_pro\31pipe_c\obj\Debug\pipe_c.Properties.Resources.resources
+F:\Book\c_pro\31pipe_c\obj\Debug\pipe_c.csproj.GenerateResource.Cache

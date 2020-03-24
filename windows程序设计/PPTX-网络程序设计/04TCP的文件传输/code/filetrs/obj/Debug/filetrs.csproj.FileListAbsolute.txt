@@ -1,0 +1,10 @@
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\filetrs.exe
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\filetrs.pdb
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\bin\Debug\filetrs.exe
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\bin\Debug\filetrs.pdb
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\ResolveAssemblyReference.cache
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\filetrs.Frm_s.resources
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\filetrs.Properties.Resources.resources
+D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrs\obj\Debug\filetrs.csproj.GenerateResource.Cache
+D:\12-13下\网络程序设计\pdf\03\2\filetrs\obj\Debug\filetrs.exe
+D:\12-13下\网络程序设计\pdf\03\2\filetrs\obj\Debug\filetrs.pdb

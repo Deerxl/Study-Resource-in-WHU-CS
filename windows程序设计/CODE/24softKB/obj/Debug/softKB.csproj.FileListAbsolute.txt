@@ -1,0 +1,8 @@
+D:\xue\softKB\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\softKB\obj\Debug\softKB.Properties.Resources.resources
+D:\xue\softKB\obj\Debug\softKB.csproj.GenerateResource.Cache
+D:\xue\softKB\obj\Debug\softKB.exe
+D:\xue\softKB\obj\Debug\softKB.pdb
+D:\xue\softKB\softKB.exe
+D:\xue\softKB\softKB.pdb
+D:\xue\softKB\obj\Debug\softKB.FrmMain.resources

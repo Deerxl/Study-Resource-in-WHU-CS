@@ -1,0 +1,196 @@
+AxWindowsMediaPlayer媒体文件主要方法属性   
+
+属性/方法名： 说明： 
+[基本属性] 　 
+URL:String; 指定媒体位置，本机或网络地址 
+uiMode:String; 播放器界面模式，可为Full, Mini, None, Invisible 
+playState:integer; 播放状态，1=停止，2=暂停，3=播放，6=正在缓冲，9=正在连接，10=准备就绪 
+enableContextMenu:Boolean; 启用/禁用右键菜单 
+fullScreen:boolean; 是否全屏显示 
+//播放器基本控制 
+Ctlcontrols.play; 播放 
+Ctlcontrols.pause; 暂停 
+Ctlcontrols.stop; 停止 
+Ctlcontrols.currentPosition:double; 当前进度 
+Ctlcontrols.currentPositionString:string; 当前进度，字符串格式。如“00:23” 
+Ctlcontrols.fastForward; 快进 
+Ctlcontrols.fastReverse; 快退 
+Ctlcontrols.next; 下一曲 
+Ctlcontrols.previous; 上一曲 
+[settings] wmp.settings //播放器基本设置 
+settings.volume:integer; 音量，0-100 
+settings.autoStart:Boolean; 是否自动播放 
+settings.mute:Boolean; 是否静音 
+settings.playCount:integer; 播放次数 
+[currentMedia] wmp.currentMedia //当前媒体属性 
+currentMedia.duration:double; 媒体总长度 
+currentMedia.durationString:string; 媒体总长度，字符串格式。如“03:24” 
+currentMedia.getItemInfo(const string); 获取当前媒体信息"Title"=媒体标题，"Author"=艺术家，"Copyright"=版权信息，"Description"=媒体内容描述， "Duration"=持续时间（秒），"FileSize"=文件大小，"FileType"=文件类型，"sourceURL"=原始地址 
+currentMedia.setItemInfo(const string); 通过属性名设置媒体信息 
+currentMedia.name:string; 同 currentMedia.getItemInfo("Title") 
+[currentPlaylist] wmp.currentPlaylist //当前播放列表属性 
+currentPlaylist.count:integer; 当前播放列表所包含媒体数 
+currentPlaylist.Item[integer]; 获取或设置指定项目媒体信息，其子属性同wmp.currentMedia 
+axWindowsMediaPlayer1.currentMedia.sourceURL; //获取正在播放的媒体文件的路径
+axWindowsMediaPlayer1.currentMedia.name;          //获取正在播放的媒体文件的名称
+axWindowsMediaPlayer1.Ctlcontrols.Play　　　　　　　　　　播放  
+axWindowsMediaPlayer1.Ctlcontrols.Stop　　　　　　　　　　停止  
+axWindowsMediaPlayer1.Ctlcontrols.Pause　　　　　　　　　 暂停  
+axWindowsMediaPlayer1.Ctlcontrols.PlayCount　　　　　　　　文件播放次数  
+axWindowsMediaPlayer1.Ctlcontrols.AutoRewind　　　　　　　是否循环播放  
+axWindowsMediaPlayer1.Ctlcontrols.Balance　　　　　　　　　声道  
+axWindowsMediaPlayer1.Ctlcontrols.Volume　　　　　　　　　音量  
+axWindowsMediaPlayer1.Ctlcontrols.Mute　　　　　　　　　　静音  
+axWindowsMediaPlayer1.Ctlcontrols.EnableContextMenu　　　　是否允许在控件上点击鼠标右键时弹出快捷菜单  
+axWindowsMediaPlayer1.Ctlcontrols.AnimationAtStart　　　　是否在播放前先播放动画  
+axWindowsMediaPlayer1.Ctlcontrols.ShowControls　　　　　　是否显示控件工具栏  
+axWindowsMediaPlayer1.Ctlcontrols.ShowAudioControls　　　　是否显示声音控制按钮  
+axWindowsMediaPlayer1.Ctlcontrols.ShowDisplay　　　　　　　是否显示数据文件的相关信息  
+axWindowsMediaPlayer1.Ctlcontrols.ShowGotoBar　　　　　　　是否显示Goto栏  
+axWindowsMediaPlayer1.Ctlcontrols.ShowPositionControls　　是否显示位置调节按钮  
+axWindowsMediaPlayer1.Ctlcontrols.ShowStatusBar　　　　　　是否显示状态栏  
+axWindowsMediaPlayer1.Ctlcontrols.ShowTracker　　　　　　　是否显示进度条  
+axWindowsMediaPlayer1.Ctlcontrols.FastForward　　　　　　　快进  
+axWindowsMediaPlayer1.Ctlcontrols.FastReverse　　　　　　　快退  
+axWindowsMediaPlayer1.Ctlcontrols.Rate　　　　　　　　　　快进／快退速率  
+axWindowsMediaPlayer1.AllowChangeDisplaySize　是否允许自由设置播放图象大小  
+axWindowsMediaPlayer1.DisplaySize　　　　　　　设置播放图象大小  
+　　　　1-MpDefaultSize　　　　　　　　　原始大小  
+　　　　2-MpHalfSize　　　　　　　　　　 原始大小的一半  
+　　　　3-MpDoubleSize　　　　　　　　　 原始大小的两倍  
+　　　　4-MpFullScreen　　　　　　　　　 全屏  
+　　　　5-MpOneSixteenthScreen　　　　　 屏幕大小的1/16  
+　　　　6-MpOneFourthScreen　　　　　　　屏幕大小的1/4  
+　　　　7-MpOneHalfScreen　　　　　　　　屏幕大小的1/2  
+axWindowsMediaPlayer1.ClickToPlay　　　　　　　是否允许单击播放窗口启动Media Player  
+
+在视频播放之后,可以通过如下方式读取源视频的宽度和高度,然后设置其还原为原始的大小.
+         private void ResizeOriginal()
+         {
+             int intWidth = axWindowsMediaPlayer1.currentMedia.imageSourceWidth;
+             int intHeight = axWindowsMediaPlayer1.currentMedia.imageSourceHeight;
+             axWindowsMediaPlayer1.Width = intWidth + 2;
+             axWindowsMediaPlayer1.Height = intHeight + 2;
+         }
+
+
+
+打开媒体文件并播放:
+
+         Dim filePath As String
+         With Me.OpenFileDialog1
+             .Title = "打开语音文件"
+             .CheckPathExists = True
+             .CheckFileExists = True
+             .Multiselect = False
+             .Filter = "mp3文件(*.mp3)|*.mp3|所有文件(*.*)|*.*"
+             If .ShowDialog = DialogResult.Cancel Then
+                 Exit Sub
+             End If
+             filePath = .FileName
+         End With
+         Me.Text = "PC复读机-文件 " & filePath
+         AxWindowsMediaPlayer1.URL = filePath
+         Try
+             Me.AxWindowsMediaPlayer1.Ctlcontrols.play()
+         Catch ex As Exception
+             MsgBox("对不起，不能播放此格式语音文件", MsgBoxStyle.OKOnly, "PC复读机")
+             Exit Sub
+         End Try
+
+注意:
+
+AxWindowsMediaPlayer1.URL 中URL是表示要播放的文件名,取消了原来的Name属性.
+
+AxWindowsMediaPlayer1.Ctlcontrols.play()播放,同样还有Pause,Stop等其他属性.
+
+AxWindowsMediaPlayer1.settings.balance表示媒体播放的声道设置,0表示均衡,-1和1表示左右声道.
+
+AxWindowsMediaPlayer1.currentMedia.duration 表示要播放的文件的时间长度.可用它获取文件长度.
+
+AxWindowsMediaPlayer1.Ctlcontrols.currentPosition表示正在播放的文件的当前播放位置,可用这个属性来对媒体文件进行前进后退等设置.如
+
+AxWindowsMediaPlayer1.Ctlcontrols.currentPosition+1 表示前进1个时间单位.
+
+AxWindowsMediaPlayer1.settings.rate播放速率,一般乘以16后再显示kbps单位.
+
+
+
+注意:在上面程序中,如果在后面加上一个：
+
+msgbox(AxWindowsMediaPlayer1.currentMedia.duration.ToString )
+
+则显示结果很可能为0，因此，这时候很可能获取不到文件的播放时间长度，容易出错。所以在利用的时候可以加一个timer控件：
+
+Private Sub Timer1_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+         EndPoint = AxWindowsMediaPlayer1.currentMedia.duration
+         If EndPoint = 0 Then Exit Sub '可能因为媒体文件的打开需要一定时间，这里等待媒体文件的打开
+
+         msgbox(AxWindowsMediaPlayer1.currentMedia.duration.ToString )
+
+End Sub
+
+此时msgbox便会显示文件播放长度。
+
+2. Ctlcontrols属性
+
+Ctlcontrols属性是AxWindowsMediaPlayer的一个重要属性， 此控件中有许多常用成员。
+
+(1) 方法play
+
+用于播放多媒体文件，其格式为：
+
+窗体名.控件名.Ctlcontrols.play()
+
+如： AxWindowsMediaPlayer1.Ctlcontrols.play()  ‘此处缺省窗体名是Me
+
+(2) 方法pause
+
+用于暂停正在播放的多媒体文件，其格式为：
+
+窗体名.控件名.Ctlcontrols.pause()
+
+如： AxWindowsMediaPlayer1.Ctlcontrols.pause()
+
+(3) 方法stop
+
+用于停止正在播放的多媒体文件，其格式为：
+
+窗体名.控件名.Ctlcontrols.stop()
+
+如： AxWindowsMediaPlayer1.Ctlcontrols.stop()
+
+(4) 方法fastforward
+
+用于将正在播放的多媒体文件快进，其格式为：
+
+窗体名.控件名.Ctlcontrols.fastforward()
+
+如： AxWindowsMediaPlayer1.Ctlcontrols.forward()
+
+(5) 方法fastreverse
+
+窗体名.控件名.Ctlcontrols.fastreverse()
+
+如： AxWindowsMediaPlayer1.Ctlcontrols.fastreverse()
+
+6. 属性CurrentPosition
+
+用于获取多媒体文件当前的播放进度，其值是数值类型，使用格式为：
+
+窗体名.控件名.Ctlcontrols.currentPosition
+
+d1 =AxWindowsMediaPlayer1.Ctlcontrols.currentPosition
+
+其中d1 是一个整型变量。
+
+7. 属性Duration
+
+用于获取当前多媒体文件的播放的总时间，其值为数值类型，其使用格式为：
+
+窗体名.控件名.currentMedia.duration
+
+如：d2 =AxWindowsMediaPlayer1.currentMedia.duration
+
+其中d2是一个整型变量。
+

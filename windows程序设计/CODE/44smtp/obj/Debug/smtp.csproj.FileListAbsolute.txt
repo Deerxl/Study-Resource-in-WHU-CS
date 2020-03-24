@@ -1,0 +1,8 @@
+E:\BOOK\c_pro\44smtp\bin\Debug\smtp.exe
+E:\BOOK\c_pro\44smtp\bin\Debug\smtp.pdb
+E:\BOOK\c_pro\44smtp\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\44smtp\obj\Debug\smtp.FrmMain.resources
+E:\BOOK\c_pro\44smtp\obj\Debug\smtp.Properties.Resources.resources
+E:\BOOK\c_pro\44smtp\obj\Debug\smtp.csproj.GenerateResource.Cache
+E:\BOOK\c_pro\44smtp\obj\Debug\smtp.exe
+E:\BOOK\c_pro\44smtp\obj\Debug\smtp.pdb

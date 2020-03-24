@@ -1,0 +1,8 @@
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\ResolveAssemblyReference.cache
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+D:\shutRobot\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\shutRobot\WindowsFormsApplication1\WindowsFormsApplication1.exe
+D:\shutRobot\WindowsFormsApplication1\WindowsFormsApplication1.pdb

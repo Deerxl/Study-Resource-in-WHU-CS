@@ -1,0 +1,9 @@
+E:\BOOK\c_pro\med_filter\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.Form1.resources
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.Form2.resources
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.Properties.Resources.resources
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.csproj.GenerateResource.Cache
+E:\BOOK\c_pro\med_filter\bin\Debug\med_filter.exe
+E:\BOOK\c_pro\med_filter\bin\Debug\med_filter.pdb
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.exe
+E:\BOOK\c_pro\med_filter\obj\Debug\med_filter.pdb

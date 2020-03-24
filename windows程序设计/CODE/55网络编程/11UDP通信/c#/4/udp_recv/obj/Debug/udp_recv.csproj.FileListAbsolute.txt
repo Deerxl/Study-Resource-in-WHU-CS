@@ -1,0 +1,16 @@
+D:\qt\udp_recv\obj\Debug\ResolveAssemblyReference.cache
+D:\qt\udp_recv\obj\Debug\udp_recv.Form_recv.resources
+D:\qt\udp_recv\obj\Debug\udp_recv.Properties.Resources.resources
+D:\qt\udp_recv\obj\Debug\udp_recv.csproj.GenerateResource.Cache
+D:\qt\udp_recv\bin\Debug\udp_recv.exe
+D:\qt\udp_recv\bin\Debug\udp_recv.pdb
+D:\qt\udp_recv\obj\Debug\udp_recv.exe
+D:\qt\udp_recv\obj\Debug\udp_recv.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\udp_recv.exe
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\udp_recv.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\bin\Debug\udp_recv.exe
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\bin\Debug\udp_recv.pdb
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\ResolveAssemblyReference.cache
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\udp_recv.Form_recv.resources
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\udp_recv.Properties.Resources.resources
+D:\09-10下\网络程序设计\11UDP通信\c#\4\udp_recv\obj\Debug\udp_recv.csproj.GenerateResource.Cache

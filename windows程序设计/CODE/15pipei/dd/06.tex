@@ -1,0 +1,230 @@
+﻿\documentclass[12pt,a4paper,oneside]{book} 
+\usepackage{geometry}\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{amssymb,amsmath}
+\usepackage{fontspec}
+\usepackage{zhspacing}
+\usepackage[]{titlesec}
+\titleformat{\chapter}{\centering\Huge\bfseries}{\thechapter}{1em}{}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+%\usepackage{graphicx}
+\usepackage[subfigure]{graphfig}
+\usepackage{fontspec,xunicode,xltxtra,verbatim}
+\setromanfont[BoldFont={"[simhei.ttf]"}]{"[simsun.ttc]"}
+
+\usepackage[pagewise]{lineno}
+
+
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[unicode=true,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1, 
+ breaklinks=false,pdfborder={0 0 1},backref=section,colorlinks=true]
+ {hyperref}
+
+
+ 
+\makeatletter
+\let\@afterindentfalse\@afterindenttrue
+\@afterindenttrue
+\makeatother
+\setlength{\parindent} {2em}%中文缩进两个汉字位
+ 
+ 
+ 
+\usepackage{listings}
+\lstloadlanguages{C,C++,matlab} %程序清单关键字宏包
+\lstset{xleftmargin=2em,xrightmargin=2em,breaklines=true,showstringspaces=false,keepspaces=true,aboveskip=1em}
+
+\renewcommand\figurename{图}
+
+\setmainfont{Adobe Song Std}
+\begin{document}
+\thispagestyle{empty}%本页无页码
+\setcounter{chapter}{5} 
+\chapter{使用HSI模型的肤色检测}
+\section{实验目的}
+使用VS2008开发工具，c\#编程语言条件下，通过学习HSI图像模型加深理论认识，了解图像处理知识在实际中的应用，根据HSI图像模型实现对彩色图像肤色检测的图像处理操作。
+\section{算法原理} 
+肤色识别是图像特征提取的一种方法，彩色图像最常用RGB分量来表示，而在色彩的识别方面使用HSI模型会更有效。HSI色系是基于色调(H)、饱和度(S)、亮度(I)的颜色空间，下面是RGB颜色空间转换为HSI空间的公式：
+ 
+\begin{displaymath}
+I=\frac{(R + G + B)}{3}
+\end{displaymath}
+
+\begin{displaymath}
+S=1-\frac{min(R + G + B)}{I}
+\end{displaymath}
+
+\begin{displaymath}
+H=\bigg\{ \begin{array}{ll}
+\theta& G \geq B  \\
+2\pi-\theta &  G<B  \\
+\end{array} 
+\end{displaymath} 
+
+\begin{displaymath}
+\theta=arccos\bigg\{\frac{[(R-G)+(R-B)]}{2\cdot[(R-G)^2+(R-B)(R-G)]^{1/2}}\bigg\}
+\end{displaymath}
+
+HSI色坐标与人眼视觉要素接近，在肤色检测方面方便实用，只要设定适当的阈值，就可以实现对图像中人体肤色象素的识别目标。在本实验中，对像素的的H、S、R、I分量进行肤色提取，程序中认定像素为肤色的阈值如下：
+% 设置中文正文字号
+\newlength{\mmfontsize}
+\setlength{\mmfontsize}{11pt}
+% 段落间距
+\setlength{\parskip}{0pt}
+% list 参数配置命令
+\renewcommand{\labelitemii}{$\circ$}
+\newcommand{\listparam}{\setlength{\parsep}{\parskip}
+\setlength{\itemsep}{0ex plus 0.1ex}
+\setlength{\labelwidth}{2\mmfontsize}
+\setlength{\labelsep}{.5\mmfontsize}
+\setlength{\topsep}{0pt}
+\setlength{\partopsep}{0pt}
+\setlength{\leftmargin}{4\mmfontsize}
+} 
+\begin{list}{$\bullet$}{\listparam}
+\item H值范围为(0~1.6)$\cup$(5.6~$\pi$)；
+\item I  > 100 ；
+\item 0.1<S<0.88；
+\item R>240；
+\end{list} 
+
+根据上述模型分析，读取图片文件的像素字节值，进行运算后，对符合肤色范围的像素保留原值，不符合的将像素值设为0，即可产生运算结果图片。
+
+
+\section{实验过程} 
+\begin{enumerate}
+\item 新建窗体应用程序；
+\item 添加系统API引用，注意这段代码应该在Form1.cs源文件中的窗体构造函数Form1()后面加入；\\
+\hspace*{2em}//动态链接库引入\\
+\hspace*{2em}[DllImport("User32.dll", EntryPoint = "SendMessage")]\\
+\hspace*{2em}private static extern int SendMessage(\\
+\hspace*{2em}IntPtr hWnd, // handle to destination window \\
+\hspace*{2em}int Msg, // message \\
+\hspace*{2em}int wParam, // first message parameter \\
+\hspace*{2em}int lParam // second message parameter \\
+\hspace*{2em});\\
+\item 在窗体上添加两个按钮分别命名为打开图片，肤色查找，两个图片框，一个文件打开对话框控件；
+\item 在打开图片点击事件添加如下代码：\\
+\hspace*{0em}private void button1\_Click(object sender, EventArgs e)\\
+\hspace*{0em}\{\\
+\hspace*{2em}if (openFileDialog1.ShowDialog() == DialogResult.OK)\\
+\hspace*{2em}\{//选择文件\\
+\hspace*{4em}DataClass.bp\_1 = new Bitmap(openFileDialog1.FileName);\\
+\hspace*{4em}pictureBox1.Image = DataClass.bp\_1;\\
+\hspace*{2em}\}       \\
+\hspace*{0em}\} \\
+\item 在肤色查找按钮点击事件添加如下代码启动工作线程：\\
+\hspace*{2em}private void button2\_Click(object sender, EventArgs e)\\
+\hspace*{2em}\{\\
+\hspace*{4em}Thread workThread = new Thread(new ThreadStart(skin\_mark));\\
+\hspace*{4em}workThread.IsBackground = true;\\
+\hspace*{4em}workThread.Start();  \\
+\hspace*{2em}\}\\
+\item 窗体消息处理重载函数：\\
+\hspace*{2em}protected override void DefWndProc(ref Message m)\\
+\hspace*{2em}\{//窗体消息处理重载\\
+\hspace*{4em}switch (m.Msg)\\
+\hspace*{4em}\{\\
+\hspace*{6em}case DataClass.GRAY\_FINISHED: \\
+\hspace*{8em}pictureBox3.Image = (Bitmap)Bitmap.FromStream(DataClass.ms\_bmp\_result);\\
+\hspace*{8em}this.Invalidate();\\
+\hspace*{8em}break;\\
+\hspace*{6em}default:\\
+\hspace*{8em}base.DefWndProc(ref m);\\
+\hspace*{8em}break;\\
+\hspace*{4em}\}\\
+\hspace*{2em}\}\\
+\item 工作线程代码： \\
+\hspace*{0em}static void skin\_mark()\\
+\hspace*{0em}\{\\
+\hspace*{2em}DataClass.bm\_ready = false;\\
+\hspace*{2em}//线程流程--图像相关\\
+\hspace*{2em}if (DataClass.bp\_1 != null)\\
+\hspace*{2em}\{ \\
+\hspace*{4em}//准备位图１的字节数组\\
+\hspace*{4em}DataClass.ms\_bmp\_src.Seek(0, SeekOrigin.Begin);\\
+\hspace*{4em}DataClass.bp\_1.Save(DataClass.ms\_bmp\_src, System.Drawing.Imaging.ImageFormat.Bmp);\\
+\hspace*{4em}byte[] buf\_ms\_src = DataClass.ms\_bmp\_src.GetBuffer();\\
+\hspace*{4em}//输出结果的内存区\\
+\hspace*{4em}DataClass.ms\_bmp\_result.Seek(0, SeekOrigin.Begin);\\
+\hspace*{4em}DataClass.bp\_1.Save(DataClass.ms\_bmp\_result, System.Drawing.Imaging.ImageFormat.Bmp);\\
+\hspace*{4em}byte[] buf\_ms\_result = DataClass.ms\_bmp\_result.GetBuffer();\\
+\hspace*{4em}int src\_width=DataClass.bp\_1.Width;//位图宽\\
+\hspace*{4em}int src\_height=DataClass.bp\_1.Height;//位图高\\
+\hspace*{4em}\\
+\hspace*{4em}int line\_byte\_count, scan\_line\_len;\\
+\hspace*{4em}line\_byte\_count = src\_width * 3;//24位需要处理成字节以4整倍数的填充行\\
+\hspace*{4em}if ((line\_byte\_count \% 4) == 0)\\
+\hspace*{4em}\{\\
+\hspace*{6em}scan\_line\_len = line\_byte\_count;\\
+\hspace*{4em}\}\\
+\hspace*{4em}else\\
+\hspace*{4em}\{\\
+\hspace*{6em}scan\_line\_len = (line\_byte\_count / 4) * 4 + 4;\\
+\hspace*{4em}\}\\
+\hspace*{4em}byte b\_val,g\_val,r\_val;\\
+\hspace*{4em}double H, S, I;\\
+\hspace*{4em}double val\_R, val\_G, val\_B,val\_min, tem1, angle;\\
+\hspace*{4em}double I\_boarder=100/255.0;\\
+\hspace*{4em}//RGB--$>$HSI\\
+\hspace*{4em}//\\
+\hspace*{4em}for (int i\_height = 0; i\_height < src\_height; i\_height++)\\
+\hspace*{4em}\{\\
+\hspace*{6em}for (int i\_width = 0; i\_width < src\_width; i\_width++)    \\
+\hspace*{6em}\{ \\
+\hspace*{8em}// \\
+\hspace*{8em}b\_val =buf\_ms\_src[54 + i\_height * scan\_line\_len + i\_width * 3];\\
+\hspace*{8em}g\_val =buf\_ms\_src[54 + i\_height * scan\_line\_len + i\_width * 3+1];\\
+\hspace*{8em}r\_val  =buf\_ms\_src[54 + i\_height * scan\_line\_len + i\_width * 3+2];\\
+\hspace*{8em}val\_B = (double)(b\_val / 255.0);\\
+\hspace*{8em}val\_G = (double)(g\_val / 255.0);\\
+\hspace*{8em}val\_R = (double)( r\_val / 255.0);\\
+\hspace*{8em}\\
+\hspace*{8em}I = (val\_R + val\_G + val\_B) / 3;\\
+\hspace*{8em}//Math.acos(double)   0 ≤θ≤π 其中 -1 ≤d≤ 1\\
+\hspace*{8em}//H=Math.acos(double) B<=G H=2π-Math.acos(double) B$>$G H  0~1.6~5.6~2pi  \\
+\hspace*{8em}tem1 = ((val\_R - val\_G) + (val\_R - val\_B)) /2*( Math.Sqrt((val\_R - val\_G) * (val\_R - val\_G) + (val\_R - val\_G) * (val\_G - val\_B)));\\
+\hspace*{8em};\\
+\hspace*{8em}\\
+\hspace*{8em}//angle = Math.Acos(tem1);\\
+\hspace*{8em}//if (b\_val <= g\_val)\\
+\hspace*{8em}//\{\\
+\hspace*{8em}//    H = angle;\\
+\hspace*{8em}//\}\\
+\hspace*{8em}//else \{ \\
+\hspace*{8em}//    angle=2*Math.PI-angle;\\
+\hspace*{8em}//    H\\
+\hspace*{8em}//\}\\
+\hspace*{8em}//I = (R + G + B) / 3;  I $>$100/255\\
+\hspace*{8em}val\_min=Math.Min(Math.Min(val\_B,val\_G),val\_R);\\
+\hspace*{8em}S=1-val\_min*3/(val\_R + val\_G + val\_B);\\
+\hspace*{8em}//S=1-((min(R,G,B))*3/(R+G+B))  0.1<S<0.88\\
+\hspace*{8em}//R$>$240\\
+\hspace*{8em}if ((I $>$ I\_boarder) \&\& (S < 0.88) \&\& (S $>$ 0.1) \&\& (r\_val$>$200) \&\& (tem1 $>$ Math.Cos(1.8)) \&\& (tem1 <= 1.0))\\
+\hspace*{8em}\{\\
+\hspace*{10em}//得出结果后设置像素值，这是皮肤像素\\
+\hspace*{8em}\\
+\hspace*{8em}\}else\\
+\hspace*{8em}\{\\
+\hspace*{10em}buf\_ms\_result[54 + i\_height * scan\_line\_len + i\_width * 3] = (byte)0;\\
+\hspace*{10em}buf\_ms\_result[54 + i\_height * scan\_line\_len + i\_width * 3 + 1] = (byte)0;\\
+\hspace*{10em}buf\_ms\_result[54 + i\_height * scan\_line\_len + i\_width * 3 + 2] = (byte)0;\\
+\hspace*{8em}\}\\
+\hspace*{8em}\\
+\hspace*{6em}\}\\
+\hspace*{4em}\}//根据HSI模型运算每个像素是否是肤色  \\
+\hspace*{2em}\}\\
+\hspace*{2em}SendMessage(DataClass.frm1\_wnd\_handle, DataClass.GRAY\_FINISHED, 100, 100);\\
+\hspace*{0em}\}\\ 
+\item 添加必要命名空间，编译调试程序，读入给定的人像图形，利用代码试验处理结果；参考结果如图：
+\begin{Figure}[h]{程序运行结果图}[label]
+\graphfile[80]{skin_result.png}  
+\end{Figure}
+\item 分别读入不同的人物图像，查看运行结果，对算法有效性进行分析。 
+\end{enumerate}
+\section{结果说明} 
+虽然基于像素的运算能初步进行肤色识别，也有其它颜色空间的识别模型，由于各种颜色空间表示方法能够进行等价转换，其方法的本质一样。人的肤色变化范围较大，也容易受到环境光线的影响，而阈值的选择是出于人的经验或者是图片库的训练，这种方法的有效性也受到一定局限。单独的肤色检测效用离实际应用有差距，在实际中往往会结合形态学原理等其它理论进行综合评定，比如包含人眼定位及脸型比例的人脸识别将会更有效一些。
+\end{document} 
+ 

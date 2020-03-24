@@ -1,0 +1,8 @@
+D:\xue\wmi\bin\Debug\wmi.exe
+D:\xue\wmi\bin\Debug\wmi.pdb
+D:\xue\wmi\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\wmi\obj\Debug\wmi.Form1.resources
+D:\xue\wmi\obj\Debug\wmi.Properties.Resources.resources
+D:\xue\wmi\obj\Debug\wmi.csproj.GenerateResource.Cache
+D:\xue\wmi\obj\Debug\wmi.exe
+D:\xue\wmi\obj\Debug\wmi.pdb

@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\filetr.Frm_C.resources
+obj\Debug\filetr.Properties.Resources.resources
+obj\Debug\filetrc.csproj.GenerateResource.Cache
+bin\Debug\filetr.exe
+bin\Debug\filetr.pdb
+obj\Debug\filetr.exe
+obj\Debug\filetr.pdb

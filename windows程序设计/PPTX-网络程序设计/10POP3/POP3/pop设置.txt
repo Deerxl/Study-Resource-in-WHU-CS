@@ -1,0 +1,1 @@
+服务器地址如下：POP3服务器：pop.126.com  |  SMTP服务器：smtp.126.com  

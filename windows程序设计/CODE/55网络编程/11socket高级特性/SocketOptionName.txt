@@ -1,0 +1,33 @@
+// Send operations will time-out if confirmation 
+// is not received within 1000 milliseconds.
+s.SetSocketOption (SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 1000);
+
+// The socket will linger for 10 seconds after Socket.Close is called.
+LingerOption lingerOption = new LingerOption (true, 10);
+
+s.SetSocketOption (SocketOptionLevel.Socket, SocketOptionName.Linger, lingerOption);
+
+
+//Creates the Socket for sending data over TCP.
+Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream,
+   ProtocolType.Tcp );
+ 
+// Connects to host using IPEndPoint.
+s.Connect(EPhost);
+if (!s.Connected)
+{
+   strRetPage = "Unable to connect to host";
+}
+// Use the SelectWrite enumeration to obtain Socket status.
+ if(s.Poll(-1, SelectMode.SelectWrite)){
+      Console.WriteLine("This Socket is writable.");
+ }
+ else if (s.Poll(-1, SelectMode.SelectRead)){
+        Console.WriteLine("This Socket is readable." );
+ }
+ else if (s.Poll(-1, SelectMode.SelectError)){
+      Console.WriteLine("This Socket has an error.");
+ }
+
+
+ÐÄÌøÊý¾Ý

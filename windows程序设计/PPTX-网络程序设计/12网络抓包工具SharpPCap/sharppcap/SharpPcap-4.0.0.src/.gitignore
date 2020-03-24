@@ -1,0 +1,8 @@
+*.*~
+*.usertasks
+*.userprefs
+*.pidb
+bin
+obj
+Scripts/htmldocs
+Scripts/monodoc_output

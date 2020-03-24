@@ -1,0 +1,15 @@
+D:\lidag\rens\obj\Debug\ResolveAssemblyReference.cache
+D:\lidag\rens\obj\Debug\rens.F_login.resources
+D:\lidag\rens\obj\Debug\rens.F_main.resources
+D:\lidag\rens\obj\Debug\rens.Properties.Resources.resources
+D:\lidag\rens\obj\Debug\rens.csproj.GenerateResource.Cache
+D:\lidag\rens\bin\Debug\rens.exe
+D:\lidag\rens\bin\Debug\rens.pdb
+D:\lidag\rens\obj\Debug\rens.exe
+D:\lidag\rens\obj\Debug\rens.pdb
+D:\lidag\rens\obj\Debug\rens.F_dbconf.resources
+D:\lidag\rens\Debug\rens.exe
+D:\lidag\rens\Debug\rens.pdb
+D:\lidag\rens\Debug\Interop.SQLDMO.dll
+D:\lidag\rens\obj\Debug\Interop.SQLDMO.dll
+D:\lidag\rens\obj\Debug\rens.csproj.ResolveComReference.cache

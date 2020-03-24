@@ -1,0 +1,12 @@
+I:\stu\FileRecv\bin\Debug\FileRecv.exe.config
+I:\stu\FileRecv\bin\Debug\FileRecv.exe
+I:\stu\FileRecv\bin\Debug\FileRecv.pdb
+I:\stu\FileRecv\obj\Debug\FileRecv.FrmMain.resources
+I:\stu\FileRecv\obj\Debug\FileRecv.Properties.Resources.resources
+I:\stu\FileRecv\obj\Debug\FileRecv.csproj.GenerateResource.Cache
+I:\stu\FileRecv\obj\Debug\FileRecv.exe
+I:\stu\FileRecv\obj\Debug\FileRecv.pdb
+I:\stu\FileRecv\obj\Debug\FileRecv.csprojResolveAssemblyReference.cache
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileRecv\bin\Debug\FileRecv.exe.config
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileRecv\obj\Debug\FileRecv.exe
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileRecv\obj\Debug\FileRecv.pdb

@@ -1,0 +1,12 @@
+D:\stu\CExcel\obj\Debug\CExcel.csproj.ResolveComReference.cache
+D:\stu\CExcel\CExcel.exe.config
+D:\stu\CExcel\obj\Debug\CExcel.exe
+D:\stu\CExcel\obj\Debug\CExcel.pdb
+D:\stu\CExcel\CExcel.exe
+D:\stu\CExcel\CExcel.pdb
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\obj\Debug\CExcel.csproj.ResolveComReference.cache
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\CExcel.exe.config
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\obj\Debug\CExcel.exe
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\obj\Debug\CExcel.pdb
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\CExcel.exe
+E:\14-15下\.NET 平台Windows应用开发\pdf\04COM操作Excel\CExcel\CExcel.pdb

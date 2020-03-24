@@ -1,0 +1,8 @@
+D:\xue\skin\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\skin\obj\Debug\skin.Form1.resources
+D:\xue\skin\obj\Debug\skin.Properties.Resources.resources
+D:\xue\skin\obj\Debug\skin.csproj.GenerateResource.Cache
+D:\xue\skin\obj\Debug\skin.exe
+D:\xue\skin\obj\Debug\skin.pdb
+D:\xue\skin\skin.exe
+D:\xue\skin\skin.pdb

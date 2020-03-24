@@ -1,0 +1,131 @@
+﻿class Wrapper   
+2 {   
+3     private IntPtr m_hPort = INVALID_HANDLE_VALUE;   
+4     private IntPtr m_hCompletion = INVALID_HANDLE_VALUE;   
+5   
+6     public Wrapper()   
+7     {   
+8         IntPtr hPortHandle = INVALID_HANDLE_VALUE;   
+9         int hr = FilterConnectCommunicationPort(   
+10             strPortName,   
+11             0,   
+12             null,   
+13             0,   
+14             null,   
+15             &hPortHandle   
+16             );   
+17   
+18         m_hPort = hPortHandle;   
+19   
+20         m_hCompletion = CreateIoCompletionPort(   
+21             hPortHandle,   
+22             IntPtr.Zero,   
+23             UIntPtr.Zero,   
+24             0   
+25             );   
+26     }   
+27   
+28     public int WaitForLastGet(out MESSAGE* message)   
+29     {   
+30         UInt32 Size;   
+31         UIntPtr Key;   
+32         NativeOverlapped* ol = null;   
+33   
+34         int hr = -1;   
+35   
+36         message = null;   
+37   
+38         Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+39             String.Format("] [{0:X}] Wait on the completion port.", GetCurrentThreadId()));   
+40   
+41         GetQueuedCompletionStatus(   
+42             m_hCompletion,   
+43             out Size,   
+44             out Key,   
+45             &ol,   
+46             -1   
+47             );   
+48   
+49         Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+50             String.Format("] [{0:X}] Returned from the completion port.", GetCurrentThreadId()));   
+51   
+52         hr = HRESULT_FROM_WIN32((int)GetLastError());   
+53   
+54         if (ol == null)   
+55         {   
+56             // ol is wrong      
+57         }   
+58         else   
+59         {   
+60             if ((int)ol->InternalHigh != 0)   
+61             {   
+62                 message = (MESSAGE*)ol;   
+63                 if (message->BufferSize != 1024)   
+64                 {   
+65                     // ol is wrong      
+66                 }   
+67             }   
+68             else   
+69             {   
+70                 Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+71                     String.Format("] [{0:X}] Completion port returned a bad OL.", GetCurrentThreadId()));   
+72             }   
+73         }   
+74   
+75         return hr;   
+76     }   
+77   
+78     public int GetMessageWithoutWait(MESSAGE* Message)   
+79     {   
+80         if (m_hPort == INVALID_HANDLE_VALUE)   
+81             return -1;   
+82   
+83         int hr = -1;   
+84   
+85         Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+86             String.Format("] [{0:X}] Tring to get a message with {1:G} bytes.", GetCurrentThreadId(), Message->BufferSize));   
+87   
+88         //fixed (NativeOverlapped* ol = &Message->ol)      
+89         {   
+90             if (Message->BufferSize != 1024)   
+91             {   
+92                 // ol is wrong      
+93             }   
+94             ZeroMemory(&Message->ol, (UInt32)Marshal.SizeOf(Message->ol));   
+95             if (Message->BufferSize != 1024)   
+96             {   
+97                 // ol is wrong      
+98             }   
+99   
+100             //fixed (NativeOverlapped* ol = &Message->ol)      
+101             {   
+102                 hr = FilterGetMessage(   
+103                     m_hPort,   
+104                     Message->buffer,   
+105                     Message->BufferSize,   
+106                     &Message->ol   
+107                     );   
+108             }   
+109             if (Message->BufferSize != 1024)   
+110             {   
+111                 // ol is wrong      
+112             }   
+113         }   
+114   
+115         Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+116             String.Format("] [{0:X}] Returned from FilterGetMessage ({1:X}).", GetCurrentThreadId(), hr));   
+117         if (hr == HRESULT_FROM_WIN32(87)) /// ERROR_IO_PENDING      
+118         {   
+119             return hr;   
+120         }   
+121   
+122         Debug.WriteLine("[" + KTM.Properties.Resources.stringApplicationTitle +   
+123             String.Format("] [{0:X}] Finished FilterGetMessage ({1:X}).", GetCurrentThreadId(), hr));   
+124   
+125         return hr;   
+126     }    
+
+    public void ReplyMessage(...)
+    {
+        ....
+    } 

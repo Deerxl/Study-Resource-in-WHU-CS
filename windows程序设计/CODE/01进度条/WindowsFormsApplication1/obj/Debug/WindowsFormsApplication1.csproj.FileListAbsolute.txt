@@ -1,0 +1,10 @@
+E:\BOOK\c_pro\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+E:\BOOK\c_pro\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+E:\BOOK\c_pro\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+E:\BOOK\c_pro\01进度条\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+E:\BOOK\c_pro\01进度条\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb

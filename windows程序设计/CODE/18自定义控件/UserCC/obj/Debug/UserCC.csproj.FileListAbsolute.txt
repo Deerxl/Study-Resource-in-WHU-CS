@@ -1,0 +1,12 @@
+D:\stu\WindowsFormsApplication7\bin\Debug\WindowsFormsApplication7.exe.config
+D:\stu\WindowsFormsApplication7\WindowsFormsApplication7.exe.config
+D:\stu\UserCC\WindowsFormsApplication7.exe.config
+D:\stu\UserCC\obj\Debug\UserCC.csproj.GenerateResource.Cache
+D:\stu\UserCC\obj\Debug\WindowsFormsApplication7.exe
+D:\stu\UserCC\obj\Debug\WindowsFormsApplication7.pdb
+D:\stu\UserCC\WindowsFormsApplication7.exe
+D:\stu\UserCC\WindowsFormsApplication7.pdb
+D:\stu\UserCC\obj\Debug\UserCC.FrmMain.resources
+D:\stu\UserCC\obj\Debug\UserCC.Properties.Resources.resources
+D:\stu\UserCC\obj\Debug\UserCC.RoundSwitch.resources
+D:\stu\UserCC\obj\Debug\UserCC.csprojResolveAssemblyReference.cache

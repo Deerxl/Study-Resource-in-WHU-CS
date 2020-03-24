@@ -1,0 +1,8 @@
+D:\min\MachineDaemon\obj\Debug\ResolveAssemblyReference.cache
+D:\min\MachineDaemon\obj\Debug\MachineDaemon.ProjectInstaller.resources
+D:\min\MachineDaemon\obj\Debug\MachineDaemon.Service1.resources
+D:\min\MachineDaemon\obj\Debug\MachineDaemon.csproj.GenerateResource.Cache
+D:\min\MachineDaemon\obj\Debug\MachineDaemon.exe
+D:\min\MachineDaemon\obj\Debug\MachineDaemon.pdb
+D:\min\MachineDaemon\MachineDaemon.exe
+D:\min\MachineDaemon\MachineDaemon.pdb

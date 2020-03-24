@@ -1,0 +1,75 @@
+The getsockopt function is most frequently used to get information about the given socket. The prototype for this function is
+
+int getsockopt (
+    SOCKET s, 
+    int level, 
+    int optname, 
+    char FAR* optval, 
+    int FAR* optlen
+);
+The first parameter, s, is the socket on which you want to perform the specified option. This must be a valid socket for the given protocol you are using. A number of options are specific to a particular protocol and socket type, while others pertain to all types of sockets. This ties in with the second parameter, level. An option of level SOL_SOCKET means it is a generic option that isn't necessarily specific to a given protocol. We say ¡°necessarily¡± because not all protocols implement each socket option of level SOL_SOCKET. For example, SO_BROADCAST puts the socket into broadcast mode, but not all supported protocols support the notion of broadcast sockets. The optname parameter is the actual option you are interested in. These option names are constant values defined in the Winsock header files. The most common and protocol-independent options (such as those with the SOL_SOCKET level) are defined in WINSOCK.H and WINSOCK2.H. Each specific protocol has its own header file that defines options specific to it. Finally, the optval and optlen parameters are the variables returned with the value of the desired option. In most cases¡ªbut not all¡ªthe option value is an integer.
+
+The setsockopt function is used to set socket options on either a socket level or a protocol-specific level. The function is defined as
+
+int setsockopt (
+    SOCKET s, 
+    int level, 
+    int optname, 
+    const char FAR * optval, 
+    int optlen
+);
+The parameters are the same as in getsockopt except that you pass in a value as the optval and optlen parameters, which are the values to set for the specified option. As with getsockopt, optval is often, but not always, an integer. Consult each option for the specifics on what is passed as the option value.
+
+The most common mistake associated with calling either getsockopt or setsockopt is attempting to obtain socket information for a socket whose underlying protocol doesn't possess that particular characteristic. For example, a socket of type SOCK_STREAM is not capable of broadcasting data; therefore, attempting to set or get the SO_BROADCAST option results in the error WSAENOPROTOOPT.
+
+SOL_SOCKET Option Level
+This section describes the socket options that return information based on the socket's characteristics and are not specific to that socket's protocol.
+
+SO_ACCEPTCONN
+optval Type
+ Get/Set
+ Winsock Version
+ Description
+ 
+BOOL 
+ Get only
+ 1+
+ If TRUE, socket is in listening mode.
+ 
+
+If the socket has been put into listening mode by the listen function, this option returns TRUE. Sockets of type SOCK_DGRAM do not support this option.
+
+SO_BROADCAST
+optval Type
+ Get/Set
+ Winsock Version
+ Description
+ 
+BOOL 
+ Both
+ 1+
+ If TRUE, socket is configured for sending broadcast messages.
+ 
+
+If the given socket has been configured for sending or receiving broadcast data, querying this socket option returns TRUE. Use setsockopt with SO_BROADCAST to enable broadcast capabilities on the socket. This option is valid for sockets that aren't of type SOCK_STREAM.
+
+Broadcasting is the capability to send data so that every machine on the local subnet receives the data. Of course, there must be some process on each machine that listens for incoming broadcast data. The drawback of broadcasting is that if many processes are all sending broadcast data, the network can become saturated and network performance suffers. To receive a broadcast message, you must enable the broadcast option and then use one of the datagram receive functions, such as recvfrom or WSARecvfrom. You can also connect the socket to the broadcast address by calling connect or WSAConnect and then use recv or WSARecv. For UDP broadcasts, you must specify a port number to send the datagram to; likewise, the receiver must request to receive the broadcast data on that port also. The following code example illustrates how to send a broadcast message with UDP.
+
+SOCKET       s;
+BOOL         bBroadcast;
+char         *sMsg = "This is a test";
+SOCKADDR_IN bcast;
+
+s = WSASocket(AF_INET, SOCK_DGRAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+bBroadcast = TRUE;
+setsockopt(s, SOL_SOCKET, SO_BROADCAST, (char *)&bBroadcast,
+    sizeof(BOOL));
+bcast.sin_family = AF_INET;
+bcast.sin_addr.s_addr = inet_addr(INADDR_BROADCAST);
+bcast.sin_port = htons(5150);
+sendto(s, sMsg, strlen(sMsg), 0, (SOCKADDR *)&bcast, sizeof(bcast));
+For UDP, a special broadcast address exists to which broadcast data should be sent. This address is 255.255.255.255. A #define directive for INADDR_BROADCAST is provided to make things a bit simpler and easier to read.
+
+AppleTalk is another protocol capable of sending broadcast messages. AppleTalk also has a special address used by broadcast data. You learned in Chapter 4 that an AppleTalk address has three parts: network, node, and socket (destination). For broadcasting, set the destination to ATADDR_BROADCAST (0xFF), which causes the datagram to be sent to all endpoints on the given network.
+
+Normally, you need to set only the SO_BROADCAST option when sending broadcast datagrams. To receive a broadcast datagram, you need to be listening only for incoming datagrams on that specified port. However, on Windows 95 when using IPX, the receiving socket must set the SO_BROADCAST option in order to receive broadcast data, as described in Knowledge Base article Q137914, which can be found at http://support.microsoft.com/support/search. This is a bug in Windows 95.

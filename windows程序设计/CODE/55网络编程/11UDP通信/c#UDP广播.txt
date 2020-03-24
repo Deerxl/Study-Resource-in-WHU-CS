@@ -1,0 +1,26 @@
+C#实现局域网UDP广播------C#网络编程杂记[1] 收藏 
+ 学校开课C#网络编程,今天就研究了一下"C#实现局域网UDP广播,这一块设置到局域网"飞鸽"类似的通讯软件编程,需要用到的主要命名空间是:System.Net和System.Net.Scoket:
+接收端:
+           Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);//初始化一个Scoket协议
+            IPEndPoint iep = new IPEndPoint(IPAddress.Any, 9095);//初始化一个侦听局域网内部所有IP和指定端口
+            EndPoint ep = (EndPoint)iep;
+            socket.Bind(iep);//绑定这个实例
+            while (true)
+            ...{
+                byte[] buffer = new byte[1024];//设置缓冲数据流
+                socket.ReceiveFrom(buffer, ref ep);//接收数据,并确把数据设置到缓冲流里面
+                Console.WriteLine(Encoding.Unicode.GetString(buffer2).TrimEnd('\u0000') + " " + DateTime.Now.ToString());
+                    }
+发送端:
+            Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);//初始化一个Scoket实习,采用UDP传输
+            IPEndPoint iep = new IPEndPoint(IPAddress.Broadcast, 9095);//初始化一个发送广播和指定端口的网络端口实例
+            sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);//设置该scoket实例的发送形式
+            string request = "你好,TEST SEND!";//初始化需要发送而的发送数据
+            byte[] buffer = Encoding.Unicode.GetBytes(request);
+            sock.SendTo(buffer, iep);
+            sock.Close();
+这样就可以实现对整个局域网内广播数据,和接收数据了.
+
+
+
+本文来自CSDN博客，转载请标明出处：http://blog.csdn.net/tt03030576/archive/2008/03/14/2181444.aspx

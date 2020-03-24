@@ -1,0 +1,16 @@
+D:\xue\TcpManC\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\TcpManC\obj\Debug\TcpManC.FrmMainC.resources
+D:\xue\TcpManC\obj\Debug\TcpManC.Properties.Resources.resources
+D:\xue\TcpManC\obj\Debug\TcpManC.csproj.GenerateResource.Cache
+D:\xue\TcpManC\bin\Debug\TcpManC.exe
+D:\xue\TcpManC\bin\Debug\TcpManC.pdb
+D:\xue\TcpManC\obj\Debug\TcpManC.exe
+D:\xue\TcpManC\obj\Debug\TcpManC.pdb
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\TcpManC.exe
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\TcpManC.pdb
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\bin\Debug\TcpManC.exe
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\bin\Debug\TcpManC.pdb
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\ResolveAssemblyReference.cache
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\TcpManC.FrmMainC.resources
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\TcpManC.Properties.Resources.resources
+D:\12-13下\网络程序设计\pdf\12TCP多连接建立与稳妥断开\TcpManC\obj\Debug\TcpManC.csproj.GenerateResource.Cache

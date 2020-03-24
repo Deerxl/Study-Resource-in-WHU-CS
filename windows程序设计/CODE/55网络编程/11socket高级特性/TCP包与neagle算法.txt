@@ -1,0 +1,137 @@
+常见的网络服务器，基本上是7*24小时运转的，对于网游来说，至少要求服务器要能连续工作一周以上的时间并保证不出现服务器崩溃这样的灾难性事件。事实上，要求一个服务器在连续的满负荷运转下不出任何异常，要求它设计的近乎完美，这几乎是不太现实的。服务器本身可以出异常（但要尽可能少得出），但是，服务器本身应该被设计得足以健壮，“小病小灾”打不垮它，这就要求服务器在异常处理方面要下很多功夫。
+
+　　服务器的异常处理包括的内容非常广泛，本文仅就在网络封包方面出现的异常作一讨论，希望能对正从事相关工作的朋友有所帮助。
+
+　　关于网络封包方面的异常，总体来说，可以分为两大类：一是封包格式出现异常；二是封包内容（即封包数据）出现异常。在封包格式的异常处理方面，我们在最底端的网络数据包接收模块便可以加以处理。而对于封包数据内容出现的异常，只有依靠游戏本身的逻辑去加以判定和检验。游戏逻辑方面的异常处理，是随每个游戏的不同而不同的，所以，本文随后的内容将重点阐述在网络数据包接收模块中的异常处理。
+
+　　为方便以下的讨论，先明确两个概念（这两个概念是为了叙述方面，笔者自行取的，并无标准可言）：
+　　1、逻辑包：指的是在应用层提交的数据包，一个完整的逻辑包可以表示一个确切的逻辑意义。比如登录包，它里面就可以含有用户名字段和密码字段。尽管它看上去也是一段缓冲区数据，但这个缓冲区里的各个区间是代表一定的逻辑意义的。
+　　2、物理包：指的是使用recv(recvfrom)或wsarecv(wsarecvfrom)从网络底层接收到的数据包，这样收到的一个数据包，能不能表示一个完整的逻辑意义，要取决于它是通过UDP类的“数据报协议”发的包还是通过TCP类的“流协议”发的包。
+
+　　我们知道，TCP是流协议，“流协议”与“数据报协议”的不同点在于：“数据报协议”中的一个网络包本身就是一个完整的逻辑包，也就是说，在应用层使用sendto发送了一个逻辑包之后，在接收端通过recvfrom接收到的就是刚才使用sendto发送的那个逻辑包，这个包不会被分开发送，也不会与其它的包放在一起发送。但对于TCP而言，TCP会根据网络状况和neagle算法，或者将一个逻辑包单独发送，或者将一个逻辑包分成若干次发送，或者会将若干个逻辑包合在一起发送出去。正因为TCP在逻辑包处理方面的这种粘合性，要求我们在作基于TCP的应用时，一般都要编写相应的拼包、解包代码。
+
+　　因此，基于TCP的上层应用，一般都要定义自己的包格式。TCP的封包定义中，除了具体的数据内容所代表的逻辑意义之外，第一步就是要确定以何种方式表示当前包的开始和结束。通常情况下，表示一个TCP逻辑包的开始和结束有两种方式：
+　　1、以特殊的开始和结束标志表示，比如FF00表示开始，00FF表示结束。
+　　2、直接以包长度来表示。比如可以用第一个字节表示包总长度，如果觉得这样的话包比较小，也可以用两个字节表示包长度。
+
+　　下面将要给出的代码是以第2种方式定义的数据包，包长度以每个封包的前两个字节表示。我将结合着代码给出相关的解释和说明。
+
+　　函数中用到的变量说明：
+
+　　CLIENT_BUFFER_SIZE：缓冲区的长度，定义为：Const int CLIENT_BUFFER_SIZE=4096。
+　　m_ClientDataBuf：数据整理缓冲区，每次收到的数据，都会先被复制到这个缓冲区的末尾，然后由下面的整理函数对这个缓冲区进行整理。它的定义是：char m_ClientDataBuf[2* CLIENT_BUFFER_SIZE]。
+　　m_DataBufByteCount：数据整理缓冲区中当前剩余的未整理字节数。
+　　GetPacketLen(const char*)：函数，可以根据传入的缓冲区首址按照应用层协议取出当前逻辑包的长度。
+　　GetGamePacket(const char*, int)：函数，可以根据传入的缓冲区生成相应的游戏逻辑数据包。
+　　AddToExeList(PBaseGamePacket)：函数，将指定的游戏逻辑数据包加入待处理的游戏逻辑数据包队列中，等待逻辑处理线程对其进行处理。
+　　DATA_POS：指的是除了包长度、包类型等这些标志型字段之外，真正的数据包内容的起始位置。
+
+Bool SplitFun(const char* pData,const int &len)
+{
+    PBaseGamePacket pGamePacket=NULL;
+    __int64 startPos=0, prePos=0, i=0;
+    int packetLen=0;
+
+ 　//先将本次收到的数据复制到整理缓冲区尾部
+    startPos = m_DataBufByteCount;  
+    memcpy( m_ClientDataBuf+startPos, pData, len );
+    m_DataBufByteCount += len;    
+
+    //当整理缓冲区内的字节数少于DATA_POS字节时，取不到长度信息则退出
+　//注意：退出时并不置m_DataBufByteCount为0
+    if (m_DataBufByteCount < DATA_POS+1)
+        return false; 
+
+    //根据正常逻辑，下面的情况不可能出现，为稳妥起见，还是加上
+    if (m_DataBufByteCount >  2*CLIENT_BUFFER_SIZE)
+    {
+        //设置m_DataBufByteCount为0，意味着丢弃缓冲区中的现有数据
+        m_DataBufByteCount = 0;
+
+　　//可以考虑开放错误格式数据包的处理接口，处理逻辑交给上层
+　　//OnPacketError()
+        return false;
+    }
+
+     //还原起始指针
+     startPos = 0;
+
+     //只有当m_ClientDataBuf中的字节个数大于最小包长度时才能执行此语句
+    packetLen = GetPacketLen( pIOCPClient->m_ClientDataBuf );
+
+    //当逻辑层的包长度不合法时，则直接丢弃该包
+    if ((packetLen < DATA_POS+1) || (packetLen > 2*CLIENT_BUFFER_SIZE))
+    {
+        m_DataBufByteCount = 0;
+
+　　//OnPacketError()
+        return false;
+    }
+
+    //保留整理缓冲区的末尾指针
+    __int64 oldlen = m_DataBufByteCount; 
+
+    while ((packetLen <= m_DataBufByteCount) && (m_DataBufByteCount>0))
+    {
+        //调用拼包逻辑，获取该缓冲区数据对应的数据包
+        pGamePacket = GetGamePacket(m_ClientDataBuf+startPos, packetLen); 
+
+        if (pGamePacket!=NULL)
+        {
+            //将数据包加入执行队列
+            AddToExeList(pGamePacket);
+        }
+
+        pGamePacket = NULL;
+ 
+　　//整理缓冲区的剩余字节数和新逻辑包的起始位置进行调整
+        m_DataBufByteCount -= packetLen;
+        startPos += packetLen; 
+
+        //残留缓冲区的字节数少于一个正常包大小时，只向前复制该包随后退出
+        if (m_DataBufByteCount < DATA_POS+1)
+        {
+            for(i=startPos; i<startPos+m_DataBufByteCount; ++i)
+                m_ClientDataBuf[i-startPos] = m_ClientDataBuf[i];
+
+            return true;
+        }
+
+        packetLen = GetPacketLen(m_ClientDataBuf + startPos );
+
+         //当逻辑层的包长度不合法时，丢弃该包及缓冲区以后的包
+        if ((packetLen<DATA_POS+1) || (packetLen>2*CLIENT_BUFFER_SIZE))
+        {
+            m_DataBufByteCount = 0;
+
+    　　//OnPacketError()
+            return false;
+        }
+
+         if (startPos+packetLen>=oldlen)
+        {
+            for(i=startPos; i<startPos+m_DataBufByteCount; ++i)
+                m_ClientDataBuf[i-startPos] = m_ClientDataBuf[i];           
+
+            return true;
+        }
+     }//取所有完整的包
+
+     return true;
+}
+
+　　以上便是数据接收模块的处理函数，下面是几点简要说明：
+
+　　1、用于拼包整理的缓冲区(m_ClientDataBuf)应该比recv中指定的接收缓冲区(pData)长度(CLIENT_BUFFER_SIZE)要大，通常前者是后者的2倍(2*CLIENT_BUFFER_SIZE)或更大。
+
+　　2、为避免因为剩余数据前移而导致的额外开销，建议m_ClientDataBuf使用环形缓冲区实现。
+
+　　3、为了避免出现无法拼装的包，我们约定每次发送的逻辑包，其单个逻辑包最大长度不可以超过CLIENT_BUFFER_SIZE的2倍。因为我们的整理缓冲区只有2*CLIENT_BUFFER_SIZE这么长，更长的数据，我们将无法整理。这就要求在协议的设计上以及最终的发送函数的处理上要加上这样的异常处理机制。
+
+
+　　4、对于数据包过短或过长的包，我们通常的情况是置m_DataBufByteCount为0，即舍弃当前包的处理。如果此处不设置m_DataBufByteCount为0也可，但该客户端只要发了一次格式错误的包，则其后继发过来的包则也将连带着产生格式错误，如果设置m_DataBufByteCount为0，则可以比较好的避免后继的包受此包的格式错误影响。更好的作法是，在此处开放一个封包格式异常的处理接口(OnPacketError)，由上层逻辑决定对这种异常如何处置。比如上层逻辑可以对封包格式方面出现的异常进行计数，如果错误的次数超过一定的值，则可以断开该客户端的连接。
+
+　　5、建议不要在recv或wsarecv的函数后，就紧接着作以上的处理。当recv收到一段数据后，生成一个结构体或对象(它主要含有data和len两个内容，前者是数据缓冲区，后者是数据长度)，将这样的一个结构体或对象放到一个队列中由后面的线程对其使用SplitFun函数进行整理。这样，可以最大限度地提高网络数据的接收速度，不至因为数据整理的原因而在此处浪费时间。
+
+
+本文来自CSDN博客，转载请标明出处：http://blog.csdn.net/sodme/archive/2005/07/10/419233.aspx

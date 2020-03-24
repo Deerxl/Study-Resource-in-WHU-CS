@@ -1,0 +1,4 @@
+cd c:\WINDOWS\Microsoft.NET\Framework\v2.0.50727
+installutil D:\min\MachineDaemon\MachineDaemon.exe
+installutil d:\shutRobot\WindowsService1\WindowsService1.exe
+installutil /u d:\shutRobot\WindowsService1\WindowsService1.exe

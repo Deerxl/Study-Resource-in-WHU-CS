@@ -1,0 +1,12 @@
+D:\filetran\FileSend\bin\Debug\FileSend.exe.config
+D:\filetran\FileSend\bin\Debug\FileSend.exe
+D:\filetran\FileSend\bin\Debug\FileSend.pdb
+D:\filetran\FileSend\obj\Debug\FileSend.csprojResolveAssemblyReference.cache
+D:\filetran\FileSend\obj\Debug\FileSend.FrmMain.resources
+D:\filetran\FileSend\obj\Debug\FileSend.Properties.Resources.resources
+D:\filetran\FileSend\obj\Debug\FileSend.csproj.GenerateResource.Cache
+D:\filetran\FileSend\obj\Debug\FileSend.exe
+D:\filetran\FileSend\obj\Debug\FileSend.pdb
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileSend\bin\Debug\FileSend.exe.config
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileSend\obj\Debug\FileSend.exe
+E:\15-16上\网络程序设计\pdf\03UDP文件传输\FileSend\obj\Debug\FileSend.pdb

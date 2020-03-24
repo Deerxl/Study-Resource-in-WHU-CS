@@ -1,0 +1,31 @@
+telenet pop.china.com 110
++OK AIMC POP service (mail2.china.com) is ready.
+USER boss_ch
++OK Please enter password for user <boss_ch>.
+PASS ******
++OK boss_ch has 1 messages (750 octets)
+STAT
++OK 1 750
+LIST 
++OK 1 messages (750 octets)
+1 750
+RETR 1
++OK 750 octets
+Received: from smtp2.ptt.js.cn([202.102.24.37]) by china.com(JetMail 2.5.3.0)
+with SMTP id jm4839cc4227; Sat, 23 Sep 2000 05:31:21 -0000
+Received: from chenjunqing ([61.155.120.6]) by smtp2.ptt.js.cn
+(Netscape Messaging Server 4.15) with SMTP id G1BRHJ03.V07 for
+<boss_ch@china.com> Sat, 23 Sep 2000 13:34:31 +0800 
+Date: Sat, 23 Sep 2000 13:34:18 +0800
+From: =?ISO-8859-1?Q?=B3=C2=BF=A1=C7=E5?= <boss_ch@netease.com>
+To: boss_ch@china.com <boss_ch@china.com>
+Subject: =?ISO-8859-1?Q?=D3=CA=BC=FE=CA=BE=C0=FD?=
+X-mailer: FoxMail 3.1 [cn]
+Mime-Version: 1.0
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: 8bit
+Message-ID: <g1brhj03.v07@smtp2.ptt.js.cn>
+您好！
+这是一个邮件的小示例
+QUIT
++OK Pop server at <mail2.china.com> signing off.

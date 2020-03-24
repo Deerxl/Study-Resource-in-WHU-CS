@@ -1,0 +1,140 @@
+POP3 命令简介
+
+什么是 POP3
+POP3 (Post Office Protocol 3) 即邮局协议的第 3 个版本,它规定怎样将个人计算机连接到 Internet 的邮件服务器和下载电子邮件的电子协议。它是因特网电子邮件的 第一个离线协议标准, POP3 允许用户从服务器上把邮件存储到本地主机（即自己的计算机）上,同时删除保存在邮件服务器上的邮件，而POP3服务器则是遵循 POP3 协议的接收邮件服务器，用来接收电子邮件的。
+
+POP3 命令
+POP3 命令包括：
+USER username 认证用户名
+PASS password 认证密码认证，认证通过则状态转换
+APOP name,digest 认可一种安全传输口令的办法，执行成功导致状态转换，请参见 RFC 1321 。
+STAT 处理请求 server 回送邮箱统计资料，如邮件数、 邮件总字节数
+UIDL n 处理 server 返回用于该指定邮件的唯一标识， 如果没有指定，返回所有的。
+LIST n 处理 server 返回指定邮件的大小等
+RETR n 处理 server 返回邮件的全部文本
+DELE n 处理 server 标记删除，QUIT 命令执行时才真正删除
+RSET 处理撤消所有的 DELE 命令
+TOP n,m 处理 返回 n 号邮件的前 m 行内容，m 必须是自然数
+NOOP 处理 server 返回一个肯定的响应
+QUIT 希望结束会话。如果 server 处于"处理" 状态，则现在进入"更新"状态，删除那些标记成删除的邮件。如果 server 处于"认可"状态，则结束会话时 server 不进入"更新"状态 。
+
+使用 telnet 连接 快速邮(Ksemail) Server 收信
+例如：安装 快速邮(Ksemail) 的邮件服务器 IP 是 172.16.10.254（蓝色字体内容由客户端输入，红色字体内容是服务返回的）
+
+telnet 172.16.10.254 110 ----------------------------- 使用 telnet 命令连接服务器 110 端口
+Trying 172.16.10.254... ------------------------------ 正在连接服务器 110 端口
+Connected to 172.16.10.254. -------------------------- 连接服务器 110 端口成功
++OK Ksemail Mail Server 5.2 Build 041201 (Database-MySQL) POP3 Ready. <15161920.
+38326.525168125@ksemail.com>  http://www.ksemail.com
+user username ------------------------------------------ 输入用户名, username 为具体的用户名
++OK ---------------------------------------------------- 执行命令成功
+pass password ------------------------------------------ 输入用户密码，password 为具体的密码
++OK 2 messages ----------------------------------------- 密码认证通过
+(-ERR authorization failed ----------------------------- 密码认证失败)
+stat --------------------------------------------------- 邮箱状态
++OK 2 6415 --------------------------------------------- 2 为该信箱总邮件数，6415 为总字节数
+list --------------------------------------------------- 列出每封邮件的字节数
++OK ---------------------------------------------------- 执行命令成功，开始显示，左边为邮件的序号，右边为该邮件的大小
+1 537 -------------------------------------------------- 第 1 封邮件，大小为 537 字节
+2 5878 ------------------------------------------------- 第 2 封邮件，大小为 5878 字节
+.
+top 1 -------------------------------------------------- 接收第 1 封邮件
++OK ---------------------------------------------------- 接收成功, 返回第 1 封邮件头
+Return-Path: <test1@test.com>
+Delivered-To:test2@test.com
+Received: FROM test.com BY ksemail.com ; Sun, 5 Dec 2004 10:35:33 +0800 (CST)
+From:test1@test.com
+To:test2@test.com
+Date: Mon, 25 Oct 2004 14:24:27 +0800
+Subject: test mail
+.
+retr 1 ------------------------------------------------- 接收第 1 封邮件
++OK ---------------------------------------------------- 接收成功, 返回第 1 封邮件全部内容
+Return-Path: <test1@test.com>
+Delivered-To:test2@test.com
+Received: FROM test.com BY ksemail.com ; Sun, 5 Dec 2004 10:35:33 +0800 (CST)
+From:test1@test.com
+To:test2@test.com
+Date: Mon, 25 Oct 2004 14:24:27 +0800
+Subject: test mail
+
+Hi, test2
+This is a test mail, you don't reply it.
+
+.
+dele 1 ------------------------------------------------- 删除第 1 封邮件
++OK ---------------------------------------------------- 删除成功
+dele 2 ------------------------------------------------- 删除第 2 封邮件
++OK ---------------------------------------------------- 删除成功
+quit --------------------------------------------------- 结束会话
++OK ---------------------------------------------------- 执行命令成功
+
+操作实例——以下实例均通过测试 (Windows7+dos & Redhat EL 5 +sendmail )
+
+c:\telnet 10.10.10.254 110
+OP3 rhel v2003.83rh server ready
++OK POP3 rhel v2003.83rh server ready
+
+user u1                     【user登录】
++OK User name accepted, password please
+
+pass u1                     【密码】
++OK Mailbox open, 1 messages
+
+stat                          【处理请求 server 回送邮箱统计资料，如邮件数、 邮件总字节数】
++OK 1 15431
+
+list                           【处理请求 server 返回邮件列表、 邮件字节数】
++OK Mailbox scan listing follows
+1 15431
+.                              【结尾符】
+
+uidl 1                        【处理 server 返回用于该指定邮件的唯一标识 1， 如果没有指定，返回所有的。】
++OK 1 49e6d01b0000000a
+
+list 1                         【处理 server 返回指定邮件1的大小等】
++OK 1 15431
+
+retr 1                        【处理 server 返回邮件的全部文本】
++OK 15431 octets
+Return-Path: <someboy@163.com>
+Received: from mail.rhel.com ([10.10.10.254])
+        by mail.rhel.com (8.12.10/8.12.10) with ESMTP id n6DELeZt025660
+        for <u1@mail.rhel.com>; Mon, 13 Jul 2009 22:21:40 +0800
+Received: from 127.0.0.1 (unknown [127.0.0.1])
+        by mail.rhel.com (KILL Mail Shield Gateway) with ESMTP id 2264F71C0
+06
+.
+.
+.
+------=_Part_145072_15032728.1247495976373--
+.                               【结尾符】
+
+dele 1                        【处理 server 标记删除，QUIT 命令执行时才真正删除】
++OK Message deleted
+
+rset 1                        【处理撤消所有的 DELE 命令】
++OK Reset state
+
+noop                         【处理 server 返回一个肯定的响应】
++OK No-op to you too!
+
+quit                          【希望结束会话。如果 server 处于"处理" 状态，则现在进入"更新"状态，删除那些标记成删除的邮件。】
+                               【如果 server 处于"认可"状态，则结束会话时 server 不进入"更新"状态 。】
++OK Sayonara
+
+遗失对主机的连接。
+
+C:\>
+
+POP3常用指令
+
+POP3服务器响应一般为：“+OK”表示成功，“-ERR”表示失败。
+
+1、USER <用户名> ；用户登录。
+2、PASS <密码> ；发送用户密码。
+3、STAT ；返回邮箱列表（邮件数量、字节）。
+4、DELE <邮件编号> ；删除指定的邮件。
+5、LIST <邮件编号> ；返回指定的邮件报头。
+6、RETR <邮件编号> ；传回指定的邮件，以只有一个“.”号的行结束。
+7、QUIT ；关闭连接。

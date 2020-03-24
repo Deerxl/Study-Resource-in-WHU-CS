@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="filetrc">
+</Property><Property Name="解决方案文件" Value="D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\filetrc.sln">
+</Property><Property Name="用户选项文件" Value="D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\filetrc.suo">
+</Property><Property Name="Date" Value="2010年4月14日星期三">
+</Property><Property Name="Time" Value="15:21">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="filetrc.sln" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\filetrc.sln">
+</Event><Event ErrorLevel="0" Project="" Source="filetrc.suo" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\filetrc.suo">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="filetrc.csproj" Description="项目文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\filetrc.csproj">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Frm_C.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Frm_C.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Frm_C.Designer.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Frm_C.Designer.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Program.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Program.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Properties\AssemblyInfo.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Properties\Resources.Designer.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Properties\Settings.Designer.cs" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Properties\Settings.settings" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Frm_C.resx" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Frm_C.resx">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="Properties\Resources.resx" Description="文件已成功备份为 D:\09-10下\网络程序设计\09C#文件传输程序\2\filetrc\Backup\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="filetrc.csproj" Description="项目已成功转换">
+</Event><Event ErrorLevel="3" Project="filetrc" Source="filetrc.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="filetrc.sln" Description="成功转换解决方案">
+</Event><Event ErrorLevel="3" Project="" Source="filetrc.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="filetrc" Source="filetrc.csproj" Description="扫描完成: 项目文件不需要升级。">
+</Event></UpgradeLog>

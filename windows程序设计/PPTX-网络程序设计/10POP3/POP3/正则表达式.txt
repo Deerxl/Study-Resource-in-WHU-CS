@@ -1,0 +1,8 @@
+Regex r = new Regex("^(?<name>\\w+):(?<value>\\w+)");
+    Match m = r.Match("Section1:119900");
+m.Groups["name"].Value = "Section1"
+    m.Groups["value"].Value = "119900"
+\w 等效于 [a-zA-Z_0-9] 
+\W 等效于 [^a-zA-Z_0-9]
+\s 等效于 [ \f\n\r\t\v] 
+\d 与任何十进制数字匹配

@@ -1,0 +1,91 @@
+#include <winsock2.h>
+
+void main(void)
+{
+   WSADATA              wsaData;
+   SOCKET               ReceivingSocket;
+   SOCKADDR_IN          ReceiverAddr;
+   int                  Port = 5150;
+   char                 ReceiveBuf[1024];
+   int                  BufLength = 1024;
+   SOCKADDR_IN          SenderAddr;
+   int                  SenderAddrSize = sizeof(SenderAddr);
+   
+   // Initialize Winsock version 2.2
+
+   WSAStartup(MAKEWORD(2,2), &wsaData);
+   
+      // Create a new socket to receive datagrams on.
+ 
+      ReceivingSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+      // Set up a SOCKADDR_IN structure that will tell bind that we
+      // want to receive datagrams from all interfaces using port
+      // 5150.
+
+      ReceiverAddr.sin_family = AF_INET;
+      ReceiverAddr.sin_port = htons(Port);    
+      ReceiverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+      // Associate the address information with the socket using bind.
+
+      bind(ReceivingSocket, (SOCKADDR *)&SenderAddr, sizeof(SenderAddr));
+
+   // At this point you can receive datagrams on your bound socket.
+   recvfrom(ReceivingSocket, ReceiveBuf, BufLength, 0,
+            (SOCKADDR *)&SenderAddr, &SenderAddrSize);
+
+   // When your application is finished receiving datagrams close
+   // the socket.
+
+   closesocket(ReceivingSocket);
+
+   // When your application is finished call WSACleanup.
+
+   WSACleanup();
+}
+
+
+
+#include <winsock2.h>
+
+void main(void)
+{
+   WSADATA              wsaData;
+   SOCKET               SendingSocket;
+   SOCKADDR_IN          ReceiverAddr;
+   int                  Port = 5150;
+   char                 SendBuf[1024];
+   int                  BufLength = 1024;
+
+   // Initialize Winsock version 2.2
+
+   WSAStartup(MAKEWORD(2,2), &wsaData);
+   
+   // Create a new socket to receive datagrams on.
+ 
+   SendingSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+   
+   // Set up a SOCKADDR_IN structure that will identify who we
+   // will send datagrams to. For demonstration purposes, let's
+   // assume our receiver's IP address is 136.149.3.29 and waits
+   // for datagrams on port 5150.
+
+   ReceiverAddr.sin_family = AF_INET;
+   ReceiverAddr.sin_port = htons(Port);    
+   ReceiverAddr.sin_addr.s_addr = inet_addr("136.149.3.29");
+
+   // Send a datagram to the receiver.
+
+   sendto(SendingSocket, SendBuf, BufLength, 0, 
+          (SOCKADDR *)&ReceiverAddr, sizeof(RecieverAddr));
+		  
+   // When your application is finished sending datagrams close
+   // the socket.
+
+   closesocket(SendingSocket);
+
+   // When your application is finished call WSACleanup.
+
+   WSACleanup();
+}

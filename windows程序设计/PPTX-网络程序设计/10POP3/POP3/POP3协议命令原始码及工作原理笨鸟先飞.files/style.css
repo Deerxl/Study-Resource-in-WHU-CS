@@ -1,0 +1,468 @@
+BODY {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 9pt; BACKGROUND: #fff; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #333; LINE-HEIGHT: 120%; PADDING-TOP: 0px; FONT-FAMILY: arial,'ËÎÌו','Lucida Grande','Lucida Sans Unicode',verdana,sans-serif; TEXT-ALIGN: center; BORDER-RIGHT-WIDTH: 0px
+}
+A:link {
+	FONT-SIZE: 9pt; COLOR: #333; TEXT-DECORATION: none
+}
+A:visited {
+	FONT-SIZE: 9pt; COLOR: #333; TEXT-DECORATION: none
+}
+A:hover {
+	FONT-SIZE: 9pt; COLOR: blue; TEXT-DECORATION: underline
+}
+A:active {
+	FONT-SIZE: 9pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+A.red:link {
+	COLOR: #cc0000
+}
+A.red:visited {
+	COLOR: #cc0000
+}
+A.red:hover {
+	COLOR: #990000
+}
+A.red:active {
+	COLOR: #cc0000
+}
+A.blue:link {
+	COLOR: #003263
+}
+A.blue:visited {
+	COLOR: #003263
+}
+A.blue:hover {
+	COLOR: #003263
+}
+A.blue:active {
+	COLOR: #003263
+}
+A.green:link {
+	COLOR: #fff
+}
+A.green:visited {
+	COLOR: #fff
+}
+A.green:hover {
+	COLOR: #b5ffd9
+}
+A.green:active {
+	COLOR: #fff
+}
+A.orange:link {
+	COLOR: #ff6700
+}
+A.orange:visited {
+	COLOR: #ff6700
+}
+A.orange:hover {
+	COLOR: #cc0000
+}
+A.orange:active {
+	COLOR: #ff6700
+}
+A.white:link {
+	COLOR: #fff
+}
+A.white:visited {
+	COLOR: #fff
+}
+A.white:hover {
+	COLOR: #fff
+}
+A.white:active {
+	COLOR: #fff
+}
+A.brown:link {
+	COLOR: #996500
+}
+A.brown:visited {
+	COLOR: #996500
+}
+A.brown:hover {
+	COLOR: #cc0000
+}
+A.brown:active {
+	COLOR: #996500
+}
+IMG {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+DIV {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+FORM {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+TABLE {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+TR {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H1 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H3 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H4 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H5 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+H6 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+SPAN {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.txt_glay {
+	COLOR: #999999
+}
+.txt_orange {
+	FONT-SIZE: 12px; COLOR: #ff6600
+}
+.txt_red {
+	COLOR: #cf0016
+}
+.txt_blue {
+	COLOR: #0f9cd4
+}
+.txt_white {
+	COLOR: #fff
+}
+.txt_green {
+	COLOR: #008000
+}
+.form {
+	FLOAT: left; TEXT-ALIGN: left
+}
+.text_input {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 6px; FONT-WEIGHT: bold; FONT-SIZE: 9pt; BACKGROUND: #fff; BORDER-LEFT: #ccc 1px solid; COLOR: #777; PADDING-TOP: 2px; BORDER-BOTTOM: #ccc 1px solid; HEIGHT: 14px
+}
+.textarea_input {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; FONT-SIZE: 9pt; BACKGROUND: #fff; OVERFLOW: auto; BORDER-LEFT: #ccc 1px solid; COLOR: #777; BORDER-BOTTOM: #ccc 1px solid
+}
+.submit {
+	BORDER-RIGHT: #666668 1px solid; BORDER-TOP: #666668 1px solid; FONT-SIZE: 9pt; BACKGROUND: #e5e5e5; BORDER-LEFT: #666668 1px solid; COLOR: #333333; BORDER-BOTTOM: #666668 1px solid; HEIGHT: 20px
+}
+.select_menu1 {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; FONT-SIZE: 9pt; BACKGROUND: #fff; BORDER-LEFT: #ccc 1px solid; COLOR: #333; BORDER-BOTTOM: #ccc 1px solid; HEIGHT: 12px
+}
+.select_menu2 {
+	FONT-SIZE: 9pt; BACKGROUND: #fff; COLOR: #333; HEIGHT: 17px
+}
+.null {
+	VISIBILITY: hidden
+}
+.clear {
+	CLEAR: both
+}
+.nav {
+	WIDTH: 700px
+}
+.nav A:link {
+	FONT-SIZE: 9pt; COLOR: #fff
+}
+.nav A:visited {
+	FONT-SIZE: 9pt; COLOR: #fff
+}
+.nav A:hover {
+	FONT-SIZE: 9pt; COLOR: yellow
+}
+.nav A:active {
+	FONT-SIZE: 9pt; COLOR: #fff
+}
+.footer {
+	WIDTH: 900px; COLOR: #ffffff
+}
+.footer A:link {
+	FONT-SIZE: 10pt; COLOR: #fff
+}
+.footer A:visited {
+	FONT-SIZE: 10pt; COLOR: #fff
+}
+.footer A:hover {
+	FONT-SIZE: 10pt; COLOR: yellow
+}
+.footer A:active {
+	FONT-SIZE: 10pt; COLOR: #fff
+}
+.nav1 {
+	BORDER-RIGHT: #9daec2 1px solid; BORDER-TOP: #9daec2 1px solid; BACKGROUND: url(/images/nav_bg.gif) repeat-x 50% top; MARGIN: 3px auto; BORDER-LEFT: #9daec2 1px solid; WIDTH: 99%; BORDER-BOTTOM: #9daec2 1px solid; HEIGHT: 90px
+}
+.nav_td1 {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; BACKGROUND: url(/images/y_006.gif) no-repeat 50% top; WIDTH: 41px; COLOR: #ff3300; MARGIN-RIGHT: 5px; TEXT-ALIGN: center
+}
+.nav_td2 {
+	FONT-WEIGHT: normal; COLOR: #000082
+}
+.nav_txt {
+	MARGIN-LEFT: auto; WIDTH: 410px; MARGIN-RIGHT: auto
+}
+.toutiao {
+	FONT-SIZE: 15pt; BACKGROUND: #eee; WIDTH: 548px; HEIGHT: 40px; TEXT-ALIGN: center
+}
+.toutiao P {
+	OVERFLOW: hidden; WIDTH: 540px; LINE-HEIGHT: 150%; WHITE-SPACE: nowrap; HEIGHT: 30px; TEXT-OVERFLOW: ellipsis
+}
+.toutiao_txt {
+	FONT-SIZE: 15pt
+}
+.toutiao A:link {
+	FONT-SIZE: 15pt; COLOR: #cc0000
+}
+.toutiao A:visited {
+	FONT-SIZE: 15pt; COLOR: #cc0000
+}
+.toutiao A:hover {
+	FONT-SIZE: 15pt; COLOR: #333
+}
+.toutiao A:active {
+	FONT-SIZE: 15pt; COLOR: #333
+}
+.pic_news {
+	
+}
+.pic_news IMG {
+	BORDER-RIGHT: #bbb 1px solid; BORDER-TOP: #bbb 1px solid; BORDER-LEFT: #bbb 1px solid; BORDER-BOTTOM: #bbb 1px solid
+}
+.pic_news P {
+	OVERFLOW: hidden; WIDTH: 150px; WHITE-SPACE: nowrap; HEIGHT: 20px; TEXT-OVERFLOW: clip
+}
+.search {
+	MARGIN-TOP: 3px; BACKGROUND: url(/style/images/search.gif) #eeeeee no-repeat; MARGIN-BOTTOM: 3px; WIDTH: 560px; HEIGHT: 40px; TEXT-ALIGN: right
+}
+.search-form {
+	MARGIN: 0px auto; WIDTH: 150px
+}
+.search-form P {
+	PADDING-BOTTOM: 5px
+}
+.title1 {
+	MARGIN-TOP: 3px
+}
+.cont2 {
+	BACKGROUND: url(/style/images/cont1_bg.gif) #ffffff repeat-x center bottom
+}
+.cont2 P {
+	OVERFLOW: hidden; WIDTH: 150px; WHITE-SPACE: nowrap; HEIGHT: 20px; TEXT-OVERFLOW: ellipsis
+}
+.cont1 {
+	BACKGROUND: #7c7e8b; COLOR: white
+}
+.cont1 P {
+	OVERFLOW: hidden; WIDTH: 150px; WHITE-SPACE: nowrap; HEIGHT: 20px; TEXT-OVERFLOW: ellipsis
+}
+.cont1 A:link {
+	COLOR: #fff
+}
+.cont1 A:visited {
+	COLOR: #fff
+}
+.cont1 A:hover {
+	COLOR: yellow
+}
+.cont1 A:active {
+	COLOR: #fff
+}
+.class_cont {
+	BACKGROUND: url(/style/images/class_cont_top.gif) no-repeat 50% top; WIDTH: 377px
+}
+.class_cont2 {
+	BACKGROUND: url(/style/images/class_cont_top2.gif) no-repeat 50% top; WIDTH: 377px
+}
+.class_nav1 {
+	WIDTH: 370px; COLOR: white
+}
+.class_nav1 A:link {
+	COLOR: #fff
+}
+.class_nav1 A:visited {
+	COLOR: #fff
+}
+.class_nav1 A:hover {
+	COLOR: yellow
+}
+.class_nav1 A:active {
+	COLOR: #fff
+}
+.in-art-list {
+	
+}
+.in-art-list P {
+	OVERFLOW: hidden; WIDTH: 350px; PADDING-TOP: 5px; BORDER-BOTTOM: #ddd 1px dashed; WHITE-SPACE: nowrap; HEIGHT: 18px; TEXT-OVERFLOW: ellipsis
+}
+.news {
+	
+}
+.news P {
+	PADDING-LEFT: 10px; OVERFLOW: hidden; WIDTH: 250px; WHITE-SPACE: nowrap; HEIGHT: 20px; TEXT-OVERFLOW: ellipsis
+}
+.news_cont {
+	FONT-SIZE: 11pt
+}
+.channel-list {
+	MARGIN: 0px auto; WIDTH: 160px
+}
+.channel-list A {
+	DISPLAY: block; PADDING-LEFT: 5px; FONT-SIZE: 13px; MARGIN: 0px auto; WIDTH: 160px; PADDING-TOP: 4px; HEIGHT: 20px; TEXT-ALIGN: left
+}
+.channel-list A:hover {
+	BORDER-RIGHT: #f0efe1 1px solid; BORDER-TOP: #f0efe1 1px solid; FONT-WEIGHT: bold; BACKGROUND: #fffef2; BORDER-LEFT: #f0efe1 1px solid; COLOR: #333; BORDER-BOTTOM: #f0efe1 1px solid; TEXT-DECORATION: none
+}
+.channel-list A:active {
+	COLOR: #cc0000
+}
+.list-cont {
+	MARGIN: 10px auto 0px; WIDTH: 550px; LINE-HEIGHT: 180%; TEXT-ALIGN: left
+}
+.list-cont P {
+	PADDING-LEFT: 20px; BACKGROUND: url(/style/images/class-title-icon.gif) no-repeat left 50%; MARGIN: 0px auto; OVERFLOW: hidden; WIDTH: 250px; PADDING-TOP: 4px; BORDER-BOTTOM: #bbbbbb 1px dashed; WHITE-SPACE: nowrap; TEXT-OVERFLOW: ellipsis
+}
+.list-cont A:link {
+	FONT-SIZE: 10pt
+}
+.list-cont A:visited {
+	FONT-SIZE: 10pt
+}
+.list-cont A:hover {
+	FONT-SIZE: 10pt
+}
+.list-cont A:active {
+	FONT-SIZE: 10pt
+}
+.pagelist {
+	BORDER-RIGHT: #f0f0f0 1px solid; BORDER-TOP: #f0f0f0 1px solid; BACKGROUND: #f9f9f9; MARGIN: 0px auto; BORDER-LEFT: #f0f0f0 1px solid; WIDTH: 560px; PADDING-TOP: 5px; BORDER-BOTTOM: #f0f0f0 1px solid; HEIGHT: 25px
+}
+.pagelist P {
+	TEXT-ALIGN: center
+}
+.search-cont {
+	MARGIN: 10px auto 0px; WIDTH: 760px; TEXT-ALIGN: left
+}
+.search-cont P {
+	PADDING-LEFT: 10px; BACKGROUND: url(/style/images/class-title-icon.gif) no-repeat left 50%; MARGIN: 0px auto; OVERFLOW: hidden; WIDTH: 200px; PADDING-TOP: 4px; BORDER-BOTTOM: #bbbbbb 1px dashed; WHITE-SPACE: nowrap; TEXT-OVERFLOW: ellipsis
+}
+.search-list {
+	BORDER-RIGHT: #f0f0f0 1px solid; BORDER-TOP: #f0f0f0 1px solid; BACKGROUND: #f9f9f9; MARGIN: 0px auto; BORDER-LEFT: #f0f0f0 1px solid; WIDTH: 760px; PADDING-TOP: 5px; BORDER-BOTTOM: #f0f0f0 1px solid; HEIGHT: 25px
+}
+.search-list P {
+	TEXT-ALIGN: center
+}
+.pic_news2 {
+	
+}
+.pic_news2 P {
+	OVERFLOW: hidden; WIDTH: 115px; WHITE-SPACE: nowrap; HEIGHT: 20px; TEXT-OVERFLOW: clip
+}
+.left-news {
+	LINE-HEIGHT: 160%
+}
+.left-news P {
+	OVERFLOW: hidden; WIDTH: 300px; WHITE-SPACE: nowrap; HEIGHT: 18px; TEXT-OVERFLOW: ellipsis
+}
+.left-news A:link {
+	FONT-SIZE: 9pt; COLOR: #333; TEXT-DECORATION: none
+}
+.left-news A:visited {
+	FONT-SIZE: 9pt; COLOR: #333; TEXT-DECORATION: none
+}
+.left-news A:hover {
+	FONT-SIZE: 9pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.left-news A:active {
+	FONT-SIZE: 9pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.pic-soft {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #2b71d1
+}
+.pic-soft A:link {
+	FONT-SIZE: 11pt; COLOR: #2b71d1; TEXT-DECORATION: none
+}
+.pic-soft A:visited {
+	FONT-SIZE: 11pt; COLOR: #2b71d1; TEXT-DECORATION: none
+}
+.pic-soft A:hover {
+	FONT-SIZE: 11pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.pic-soft A:active {
+	FONT-SIZE: 11pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.news-title {
+	MARGIN: 0px auto 8px; WIDTH: 752px
+}
+.news-title H1 {
+	FONT-SIZE: 14pt; MARGIN: 0px auto; WIDTH: 740px; COLOR: #cd3301; PADDING-TOP: 5px; HEIGHT: 25px; TEXT-ALIGN: center
+}
+.news-title P {
+	MARGIN: 0px auto; WIDTH: 752px; COLOR: #777; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid; HEIGHT: 20px; TEXT-ALIGN: center
+}
+.news-cont {
+	FONT-SIZE: 11pt; MIN-HEIGHT: 285px; MARGIN: 10px auto; WIDTH: 740px; LINE-HEIGHT: 180%; HEIGHT: 285px; TEXT-ALIGN: left
+}
+.news-cont CENTER {
+	FONT-WEIGHT: bold
+}
+.news-cont DIV {
+	FONT-SIZE: 11pt; MIN-HEIGHT: 285px; MARGIN: 10px auto; WIDTH: 740px; LINE-HEIGHT: 180%; HEIGHT: 285px; TEXT-ALIGN: left
+}
+.wzcont {
+	FONT-SIZE: 11pt; MIN-HEIGHT: 285px; MARGIN: 10px auto; WIDTH: 740px; LINE-HEIGHT: 180%; HEIGHT: 285px; TEXT-ALIGN: left
+}
+.wzcont CENTER {
+	FONT-WEIGHT: bold
+}
+.tool-bar {
+	BACKGROUND: #fffce3; MARGIN: 5px auto 0px; WIDTH: 760px; COLOR: #986800; PADDING-TOP: 4px; BORDER-BOTTOM: #cccccc 1px solid; HEIGHT: 20px; TEXT-ALIGN: center
+}
+.tool-bar A:link {
+	FONT-SIZE: 9pt; COLOR: #986800; TEXT-DECORATION: none
+}
+.main .right .tool-bar A:visited {
+	FONT-SIZE: 9pt; COLOR: #986800; TEXT-DECORATION: none
+}
+.tool-bar A:hover {
+	FONT-SIZE: 9pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.main .right .tool-bar A:active {
+	FONT-SIZE: 9pt; COLOR: #cc0000; TEXT-DECORATION: none
+}
+.myinfo H1 {
+	FONT-SIZE: 1pt; COLOR: #eeeeee
+}
+.myinfo P {
+	FONT-SIZE: 1pt; COLOR: #ffffff
+}
+.ok H1 {
+	FONT-SIZE: 1pt; COLOR: #eeeeee
+}
+.ok {
+	FONT-SIZE: 1pt; COLOR: #ffffff
+}
+.no-c H1 {
+	FONT-SIZE: 1pt; COLOR: #eeeeee
+}
+.no-c {
+	FONT-SIZE: 1pt; COLOR: #ffffff
+}
+.haha {
+	FONT-SIZE: 1pt; COLOR: #ffffff
+}

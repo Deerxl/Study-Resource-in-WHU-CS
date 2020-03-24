@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="wpq">
+</Property><Property Name="解决方案文件" Value="E:\BOOK\c_pro\24键盘抓取\wpq\wpq.sln">
+</Property><Property Name="用户选项文件" Value="E:\BOOK\c_pro\24键盘抓取\wpq\wpq.suo">
+</Property><Property Name="Date" Value="2011年11月23日星期三">
+</Property><Property Name="Time" Value="8:27">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="wpq.sln" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\wpq.sln">
+</Event><Event ErrorLevel="0" Project="" Source="wpq.suo" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\wpq.suo">
+</Event><Event ErrorLevel="0" Project="wpq" Source="wpq.csproj" Description="项目文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\wpq.csproj">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Form1.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Form1.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Form1.Designer.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Form1.Designer.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Program.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Program.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Properties\AssemblyInfo.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Properties\Resources.Designer.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Properties\Settings.Designer.cs" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Properties\Settings.settings" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Form1.resx" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Form1.resx">
+</Event><Event ErrorLevel="0" Project="wpq" Source="Properties\Resources.resx" Description="文件已成功备份为 E:\BOOK\c_pro\24键盘抓取\wpq\Backup\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="wpq" Source="wpq.csproj" Description="项目已成功转换">
+</Event><Event ErrorLevel="3" Project="wpq" Source="wpq.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="wpq.sln" Description="成功转换解决方案">
+</Event><Event ErrorLevel="3" Project="" Source="wpq.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="wpq" Source="wpq.csproj" Description="扫描完成: 项目文件不需要升级。">
+</Event></UpgradeLog>

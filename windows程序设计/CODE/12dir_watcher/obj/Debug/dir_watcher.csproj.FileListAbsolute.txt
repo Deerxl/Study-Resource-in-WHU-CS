@@ -1,0 +1,8 @@
+E:\BOOK\c_pro\dir_watcher\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\dir_watcher\obj\Debug\dir_watcher.Form1.resources
+E:\BOOK\c_pro\dir_watcher\obj\Debug\dir_watcher.Properties.Resources.resources
+E:\BOOK\c_pro\dir_watcher\obj\Debug\dir_watcher.csproj.GenerateResource.Cache
+E:\BOOK\c_pro\dir_watcher\bin\Debug\dir_watcher.exe
+E:\BOOK\c_pro\dir_watcher\bin\Debug\dir_watcher.pdb
+E:\BOOK\c_pro\dir_watcher\obj\Debug\dir_watcher.exe
+E:\BOOK\c_pro\dir_watcher\obj\Debug\dir_watcher.pdb

@@ -1,0 +1,371 @@
+Index
+Introduction - Native Win32 IOCP 
+Introduction - Managed IOCP 
+Using Managed IOCP in .NET applications 
+Inside Managed IOCP 
+Points of interest 
+History 
+Software Usage 
+1. Introduction - Native Win32 IOCP
+I/O Completion Ports (IOCP) supported on Microsoft Windows platforms has two facets. It first allows I/O handles like file handles, socket handles, etc., to be associated with a completion port. Any async I/O completion event related to the I/O handle associated with the IOCP will get queued onto this completion port. This allows threads to wait on the IOCP for any completion events. The second facet is that we can create a I/O completion port that is not associated with any I/O handle. In this case, the IOCP is purely used as a mechanism for efficiently providing a thread-safe waitable queue technique. This technique is interesting and efficient. Using this technique, a pool of a few threads can achieve good scalability and performance for an application. Here is a small example. For instance, if you are implementing a HTTP server application, then you need to do the following mundane tasks apart from the protocol implementation:
+
+Create a client connection listen socket. 
+Once we get the client connection, use the client socket to communicate with the client to and fro. 
+You can implement it by creating one dedicated thread per client connection that can continuously communicate with the client to and fro. But this technique quickly becomes a tremendous overhead on the system, and will reduce the performance of the system as the number of simultaneous active client connections increase. This is because, threads are costly resources, and thread switching is the major performance bottle neck especially when there are more number of threads.
+
+The best way to solve this is to use an IOCP with a pool of threads that can work with multiple client connections simultaneously. This can be achieved using some simple steps...
+
+Create a client connection listen socket. 
+Once we get the client connection, post an IOCP read message on the socket to an IOCP. 
+One of the threads waiting for completion events on this IOCP will receive the first read message for the client. It immediately posts another read onto the same IOCP and continues processing the read message it got. Once processing the read message is completed, it again waits on the IOCP for another event. 
+This technique will allow a small pool of threads to efficiently handle communication with hundreds of client connections simultaneously. Moreover, this is a proven technique for developing scalable server side applications on Windows platforms.
+
+The above is a simplified description of using IOCP in multithreaded systems. There are some good in-depth articles on this topic in CodeProject and the Internet. Do a bit of Googling on words like IO Completion Ports, IOCP, etc., and you will be able to find good articles.
+
+2. Introduction - Managed IOCP
+Managed IOCP is a small .NET class library that provides the second facet of Native Win32 IOCP. This class library can be used both by C# and VB.NET applications. I chose the name Managed IOCP to keep the readers more close to the techniques they are used to with native Win32 IOCP. As the name highlights, Managed IOCP is implemented using pure .NET managed classes and pure .NET synchronization primitives. At its core, it provides a thread-safe object queuing and waitable object receive mechanism. Apart from that, it provides a lot more features. Here is what it does:
+
+Multiple Managed IOCP instances per process. 
+Registration of multiple threads per Managed IOCP instance. 
+Dispatching System.Object types to a threadsafe queue maintained by each Managed IOCP instance. 
+Waitable multi-thread safe retrieval of objects from the Managed IOCP instance queue by all the threads registered for that particular Managed IOCP instance. 
+Ability to restrict the number of concurrent active threads processing the queued objects related to a particular Managed IOCP instance. 
+Policy based replaceable/customizable approach for choosing a registered thread to process the next available queued object. 
+Ability to pause the Managed IOCP processing. Internally, pauses processing of queued objects by registered threads. Also, by default, disallows enqueuing new objects (can be changed). 
+Run the Managed IOCP instance. Internally re-starts the processing of queued objects by registered threads. Also allows enqueuing new objects (if it is disallowed previously). 
+Modify the max. allowed concurrent threads at runtime. 
+Provides easy accessibility to Managed IOCP instance runtime properties like... 
+Number of active concurrent threads. 
+Number of objects left in queue. 
+Number of allowed concurrent threads. 
+Running status. 
+Safe and controlled closing of a Managed IOCP instance. 
+2.1. Managed IOCP in Job/Task Oriented Business Processes
+Managed IOCP can be used in other scenarios apart from the sample that I mentioned in the introduction to native Win32 IOCP. It can be used in process oriented server side business applications. For instance, if you have a business process ( _not_ a Win32 process) with a sequence of tasks that will be executed by several clients, you will have to execute several instances of the business process, one for each client in parallel. As mentioned in my introduction to native Win32 IOCP, you can achieve this by spawning one dedicated thread per business process instance. But the system will quickly run out of resources, and the system/application performance will come down as more instances are created. Using Managed IOCP, you can achieve the same sequential execution of multiple business process instances, but with fewer threads. This can be done by dispatching each task in a business process instance as an object to Managed IOCP. It will be picked up by one of the waiting threads and will be executed. After completing the execution, the thread will dispatch the next task in the business process instance to the same Managed IOCP, which will be picked up by another waiting thread. This is a continuous cycle. The advantage is that you will be able to achieve the sequential execution goal of a business process, as only one waiting thread can receive a dispatched object, and at the same time keep the system resource utilization to required levels. Also, the system and business process execution performance will increase as there are few threads executing multiple parallel business processes.
+
+3. Using Managed IOCP in .NET applications
+Multithreaded systems are complex in the context that most problems will show up in real time production scenarios. To limit the possibility of such surprises while using Managed IOCP, I created a test application using which several aspects of the Managed IOCP library can be tested. Nevertheless, I look forward for any suggestions/corrections/inputs to improve this library and its demo application.
+
+Before getting into the demo application, below is the sequence of steps that an application would typically perform while using the Managed IOCP library:
+
+Create an instance of the ManagedIOCP class:  Collapse Copy Code
+using Sonic.Net;
+ManagedIOCP mIOCP = new ManagedIOCP();The ManagedIOCP constructor takes one argument, concurrentThreads. This is an integer that specifies how many maximum concurrent active threads are allowed to process objects queued onto this instance of ManagedIOCP. I used a no argument constructor, which defaults to a maximum of one concurrent active thread.
+
+From a thread that needs to wait on objects queued onto the ManagedIOCP instance, call the Register() method on the ManagedIOCP instance. This will return an instance of the IOCPHandle class. This is like native Win32 IOCP handle, using which the registered thread can wait on the arrival of objects onto the ManagedIOCP instance. This thread can use the Wait() method on the IOCPHandle object. The Wait() will indefinitely wait until it grabs an object queued onto the ManagedIOCP instance to which the calling thread is registered. It either comes out with an object, or an exception in case the ManagedIOCP instance is stopped (we will cover this later).  Collapse Copy Code
+IOCPHandle hIOCP = mIOCP.Register();
+while(true)
+{
+    try
+    {
+        object obj = hIOCP.Wait();
+        // Process the object
+    }
+    catch(ManagedIOCPException e)
+    {
+        break;
+    }
+    catch(Exception e)
+    {
+        break;
+    }
+}Any thread (one that is registered with the ManagedIOCP instance and any non-registered thread) that has access to the ManagedIOCP instance can dispatch (Enqueue) objects to it. These objects are picked up by waiting threads that are registered with the ManagedIOCP instance onto which objects are being dispatched.  Collapse Copy Code
+string str = "Test string";
+mIOCP.Dispatch(str);When a thread decides not to wait for objects any more, it should un-register with the ManagedIOCP instance.  Collapse Copy Code
+mIOCP.UnRegister();Once the application is done with an instance of ManagedIOCP, it should call the Close() method on it. This will release any threads waiting on this instance of ManagedIOCP, clears internal resources, and resets the internal data members, thus providing a controlled and safe closure of a ManagedIOCP instance.  Collapse Copy Code
+mIOCP.Close();There are certain useful statistics that are exposed as properties in the ManagedIOCP class. You can use them for fine tuning the application during runtime.
+
+ Collapse Copy Code
+// Current number of threads that are
+// concurrently processing the objects queued
+// onto this instance of Managed IOCP
+// (This is readonly property)
+
+int activeThreads = mIOCP.ActiveThreads; Collapse Copy Code
+// Max number of concurrent threads
+// allowed to process objects queued onto this
+// instance of Managed IOCP (This is a read/write property)
+
+int concurThreads = mIOCP.ConcurrentThreads; Collapse Copy Code
+// Current count of objects queued onto this Managed IOCP instance. 
+// NOTE: This value may change very quickly
+// as multiple concurrent threads might 
+// be processing objects from this instance of Managed IOCP queue. 
+// So _do not_ depend on this value
+// for logical operations. Use this only for
+// monitoring purpose (Status reporting, etc.)
+// and during cleanup processes 
+// (like not exiting main thread untill the queued object becomes 0, 
+// i.e. no more objects to be processed, etc)
+// (This is readonly property)
+
+int qCount = mIOCP.QueuedObjectCount; Collapse Copy Code
+// Number of threads that are registered with this instance of Managed IOCP
+// (This is readonly property)
+
+int regThreadCount = mIOCP.RegisteredThreads;3.1. Advanced usage
+Following are the advanced features of Managed IOCP that need to be used carefully.
+
+Managed IOCP execution can be paused at runtime. When a Managed IOCP instance is paused, all the threads registered with this instance of Managed IOCP will stop processing the queued objects. Also, if the 'EnqueueOnPause' property of the ManagedIOCP instance is false (by default, it is false), then no thread will be able to dispatch new objects onto the Managed IOCP instance queue. Calling Dispatch on the ManagedIOCP instance will throw an exception in the Pause state. If the 'EnqueueOnPause' property is set to true, then threads can dispatch objects onto the queue, but you need to be careful while setting this property to true, as this will increase the number of pending objects in the queue, thus occupying more memory. Also, when the Managed IOCP instance is re-started, all the registered threads will suddenly start processing a huge number of objects thus creating greater hikes in the system resource utilization.
+
+ Collapse Copy Code
+mIOCP.Pause();Once paused, the ManagedIOCP instance can be re-started using the Run method.
+
+ Collapse Copy Code
+mIOCP.Run();The running status of the Managed IOCP instance can be obtained using the IsRunning property:
+
+ Collapse Copy Code
+bool bIsRunning = mIOCP.IsRunning;You can retrieve the System.Threading.Thread object of the thread associated with the IOCPHandle instance, from its property named 'OwningThread'.
+
+3.2. Demo Application
+I provided two demo applications with similar logic. The first is implemented using Managed IOCP, the other using native Win32 IOCP. These two demo applications perform the following steps:
+
+Create a global static ManagedIOCP instance or native Win32 IOCP. 
+Create five threads. 
+Each thread will dispatch one integer value at a time to the ManagedIOCP instance or native Win32 IOCP until the specified number of objects are completed. 
+Start (creates a new set of five threads) and stop (closes the running threads) the object processing. 
+The Sonic.Net (ManagedIOCP) demo application additionally demonstrates the following features of Managed IOCP that are unavailable in the Win32 IOCP:
+
+Pause and continue object processing during runtime. 
+Change concurrent threads at runtime. 
+Statistics like, Active Threads, Maximum Concurrent threads, Queued Objects Count and Running Status of Managed IOCP. 
+Below is the image showing both the demo applications after their first cycle of object processing:
+
+
+
+Demo application results
+
+As you can see in the above figure, Managed IOCP gives the same speed (slightly even better) as native Win32 IOCP. The goal of these two demo applications is _not_ to compare the speed or features of Win32 IOCP with that of Managed IOCP, but rather to highlight that Managed IOCP provides all the advantages of native Win32 IOCP (with additional features) but in a purely managed environment.
+
+I tested these two demo applications on a single processor CPU and a dual processor CPU. The results are almost similar, in the sense the Managed IOCP is performing as good as (sometimes performing better than) native Win32 IOCP.
+
+3.3. Source and demo application files
+Below are the details of the files included in the article's Zip file:
+
+Sonic.Net (folder) - I named this class library as Sonic.Net (Sonic stands for speed). The namespace is also specified as Sonic.Net. All the classes that I described in this article are defined within this namespace. The folder hierarchy is described below:  Collapse Copy Code
+Sonic.Net
+|
+--> Assemblies
+|
+--> Solution Files
+|
+--> Sonic.Net
+|
+--> Sonic.Net Console Demo  
+|
+--> Sonic.Net Demo ApplicationThe Assemblies folder contains the Sonic.Net.dll (contains the ObjectPool, Queue, ManagedIOCP, IOCPHandle, and ThreadPool classes), Sonic.Net Demo Application.exe (demo application showing the usage of ManagedIOCP and IOCPHandle classes), and Sonic.Net Console Demo.exe (console demo application showing the usage of ThreadPool and ObjectPool classes).
+
+The Solution Files folder contains the VS.NET 2003 solution file for the Sonic.Net assembly project, Sonic.Net demo application WinForms project, and Sonic.Net console demo project.
+
+The Sonic.Net folder contains the Sonic.Net assembly source code.
+
+The Sonic.Net Console Demo folder contains the Sonic.Net console demo application source code. This demo shows the usage of the Managed IOCP ThreadPool, which is explained in my Managed I/O Completion Ports - Part 2 article. This demo uses a file that will be read by the ThreadPool threads. Please change the file path to a valid one on your system. The code below shows the portion in the code to change. This code is in the ManagedIOCPConsoleDemo.cs file.
+
+ Collapse Copy Code
+public static void ReadData()
+{
+    StreamReader sr = 
+       File.OpenText(@"C:\aditya\downloads\lgslides.pdf");
+    string st = sr.ReadToEnd();
+    st = null;
+    sr.Close();
+    Thread.Sleep(100);
+}The Sonic.Net Demo Application folder contains the Sonic.Net demo application source code.
+
+Win32IOCPDemo (folder) - This folder contains the WinForms based demo application for demonstrating Win32 IOCP usage using PInvoke. When compiled, the Win32IOCPDemo.exe will be created in the Win32IOCPDemo\bin\debug or Win32IOCPDemo\bin\Release folder based on the current build configuration you selected. The default build configuration is set to Release mode. 
+4. Inside Managed IOCP
+This section discusses the how and why part of the core logic that is used to implement Managed IOCP.
+
+4.1. Waiting and retrieving objects in Managed IOCP
+Managed IOCP provides a thread safe object dispatch and retrieval mechanism. This could have been achieved by a simple synchronized queue. But with synchronized queue, when a thread (thread-A) dispatches (enqueues) an object onto the queue, for another thread (thread-B) to retrieve that object, it has to continuously monitor the queue. This technique is inefficient as thread-B will be continuously monitoring the queue for arrival of objects, irrespective of whether the objects are present in the queue. This leads to heavy CPU utilization and thread switching in the application when multiple threads are monitoring the same queue, thus degrading the performance of the system.
+
+Managed IOCP deals with this situation by attaching an auto reset event to each thread that wants to monitor the queue for objects and retrieve them. This is why any thread that wants to wait on a Managed IOCP queue and retrieve objects from it has to register with the Managed IOCP instance using its 'Register' method. The registered threads wait for the object arrival and retrieve them using the 'Wait' method of the IOCPHandle instance. The IOCPHandle instance contains an AutResetEvent that will be set by the Managed IOCP instance when any thread dispatches an object onto its queue. There is an interesting problem in this technique. Let us say that there are three threads, thread-A dispatching the objects, and thread-B and thread-C waiting on object arrival and retrieving them. Now, say if thread-A dispatches 10 objects in its slice of CPU time. Managed IOCP will set the AutoResetEvent of thread-B and thread-C, thus informing them of the new object arrival. Since it is an event, it does not have an indication of how many times it has been set. So if thread-B and thread-C just wake up on the event set and retrieve one object each from the queue and again waits on the event, there would be 8 more objects left over in the queue unattended. Also, this mechanism would waste the CPU slice given to thread-B and thread-C as they are trying to go into waiting mode after processing a single object from the Managed IOCP queue.
+
+So in Managed IOCP, when thread-B and thread-C call the 'Wait' method on their respective IOCPHandle instances, the method first tries to retrieve an object from the Managed IOCP instance queue before waiting on its event. If it was able to successfully retrieve the object, it does not go into wait mode, rather it returns from the Wait object. This is efficient because there is no point for threads to wait on their event until there are objects to process in the queue. The beauty of this technique is that when there are no objects in the queue, the IOCPHandle instance Wait method will suspend the calling thread by waiting on its internal AutoResetEvent, which will be set again by the Managed IOCP instance 'Dispatch' method when thread-A dispatches more objects.
+
+4.2. Compare-And-Swap (CAS) in Managed IOCP
+CAS is a very familiar term in the software community, dealing with multi-threaded applications. It allows you to compare two values, and update one of them with a new value, all in a single atomic thread-safe operation. In Managed IOCP, when a thread successfully grabs an object from the IOCP queue, it is considered to be active. Before grabbing an available object from the queue, Managed IOCP checks if the number of currently active threads is less than the allowed maximum concurrent threads. In case the number of current active threads is equal to the maximum allowed concurrent threads, then Managed IOCP will block the thread, trying to receive the object from the IOCP queue. To do this, Managed IOCP has to follow the logical steps as mentioned below:
+
+Get the new would-be value of active threads (current active threads + 1). 
+Compare it with the maximum allowed concurrent threads. 
+If new would-be value is <= the maximum number of allowed concurrent threads, then assign the would-be value to the active threads. 
+In the above logic, step-3 consists of two operations, comparison and assignment. If we perform these two operations separately in Managed IOCP, then for instance, thread-A and thread-B might both reach the conditional expression with the same would-be value for active threads. If this value is less than or equal to the maximum number of allowed concurrent threads, then the condition will pass for both the threads, and both of them will assign the same would-be value for the active threads. Though the active thread count may not increase in this scenario, the actual number of physically active threads will be more than the desired maximum number of concurrent threads, as in the above scenario both the threads think that they can be active.
+
+So Managed IOCP performs this operation as shown below:
+
+Gets the current value of active threads and stores it in a local variable. 
+Gets the new would-be value of active threads (current active threads + 1). 
+Compares it with the maximum number of allowed concurrent threads. 
+If new would-be value is <= the maximum number of allowed concurrent threads, then CAS(ref activethreads variable, would-be value of active threads, current value of active threads stored in a local variable in step 1). Come out of the method if the would-be value is greater than the maximum number of allowed concurrent threads. 
+If CAS returns false then go to step 1. 
+In the above logic, the CAS operation supported by the .NET framework (Interlocked.CompareExchange) is used to assign the new would-be value to active threads only if the original value of active threads has not been changed since the time we observed (stored in the local variable) it before proceeding to our compare and decide step. This way, though two threads might pass the decision in step-4, one of them will fail in the CAS operation thus not going into active mode. Below is the active threads increment method extracted from the ManagedIOCP class implementation:
+
+ Collapse Copy Code
+internal bool IncrementActiveThreads()
+{
+    bool incremented = true;
+    do
+    {
+        int curActThreads = _activeThreads;
+        int newActThreads = curActThreads + 1;
+        if (newActThreads <= _concurrentThreads)
+        {
+           // Break if we had successfully incremented
+           // the active threads
+           if (Interlocked.CompareExchange(ref _activeThreads, 
+                  newActThreads,curActThreads) == curActThreads)
+               break;
+        }
+        else
+        {
+            incremented = false;
+            break;
+        }
+    } while(true);
+    return incremented;
+}I could have used a lock mechanism like Monitor for the entire duration of the active threads increment operation. But since this is a very frequent operation in Managed IOCP, it would lead to heavy lock contention, and will decrease the performance of the system/application in multi-CPU environments. This technique that I used in Managed IOCP is generally called lock-free technique, and is used heavily to build lock-free data structures in performance critical applications.
+
+4.3. Concurrency management in Managed IOCP
+Concurrency is one area that native Win32 IOCP excels in. It provides a mechanism where the maximum number of allowed concurrent threads can be set during its creation. It guarantees that at any given point of time, only the maximum allowed concurrent threads are running, and more importantly, it sees to it that _atleast_ the maximum allowed concurrent threads are _always_ notified/awakened to process completion events, if the number of threads using its IOCP handle is more than the maximum number of allowed concurrent threads.
+
+Managed IOCP also provides the above two guarantees with more features like ability to modify the maximum number of allowed concurrent threads at runtime, which native Win32 IOCP does not provide. Managed IOCP provides this guarantee using the Compare-And-Swap (CAS) technique in its Wait mode, as described in the previous section (4.2). When a thread waits on its IOCPHandle instance to grab a Managed IOCP queue object, it first tries to become active by incrementing the active thread count using the CAS technique as mentioned in the previous section (4.2). It it fails to increment the number of active threads, it means that the number of current active threads is equal to the maximum number of allowed concurrent threads and the calling thread will go into Wait mode. You can see this in the code implementation of the IOCPHandle::Wait() method in ManagedIOCP.cs, in the attached source code ZIP file.
+
+I could have used Win32 Semaphores to limit the maximum number of allowed concurrent threads. But it will defeat the whole purpose of Managed IOCP, being completely managed, as .NET 1.1 does not provide a Semaphore type. Also, I wanted this library to be as compatible as possible with the Mono .NET runtime. These are the reasons I did not explore the usage of semaphore for this feature. Maybe, I'll take a serious look at it if .NET 2.0 has a Semaphore object.
+
+The second feature of IOCP as described in the beginning of this section is described in more detail in the next section (dispatching objects in Managed IOCP).
+
+4.4. Dispatching objects in Managed IOCP
+Managed IOCP maintains a queue of IOCPHandle objects that are waiting on it to receive objects. When an object is dispatched to it by any thread, it pops out the next item (a IOCPHandle object) in the queue. It then sets the AutoResetEvent of the IOCPHandle object that is popped out. Before doing that, Managed IOCP tries to evaluate whether the thread associated with the popped out IOCPHandle can be used to process the object. It does it by checking whether the thread is in waiting mode using its IOCPHandle instance's Wait method, or the thread is running. If so, it sets its AutoRestEvent so that the thread wakes up and processes the object if it is waiting on IOCP, or if it is running (which means it is not suspended for some reason).
+
+If the thread is not waiting on IOCPHandle and is also not in the running state, Managed IOCP assumes that the thread is waiting on some external resources other than its IOCPHandle. It then simply decrements the active thread count, so that any other thread waiting on Managed IOCP or in running state could process objects dispatched to the Managed IOCP queue.
+
+Below is the method that is used to choose a thread when an object is dispatched onto Managed IOCP:
+
+ Collapse Copy Code
+private void WakeupNextThread()
+{
+    bool empty = false;
+#if (DYNAMIC_IOCP)
+    // First check if we should service this request from suspended 
+    // IOCPHandle queue
+    //
+    if ((_activeThreads < _concurrentThreads) &&
+        (_qIOCPHandle.Count >= _concurrentThreads))
+    {
+        IOCPHandle hSuspendedIOCP = 
+          _qSuspendedIOCPHandle.Dequeue(ref empty) as IOCPHandle;
+        if ((empty == false) && (hSuspendedIOCP != null))
+        {
+            hSuspendedIOCP.SetEvent();
+            return;
+        }
+    }
+    empty = false;
+#endif
+    while (true)
+    {
+#if (LOCK_FREE_QUEUE)
+        IOCPHandle hIOCP = _qIOCPHandle.Dequeue(ref empty) as IOCPHandle;
+#else
+        IOCPHandle hIOCP = null;
+        try
+        {
+            if (_qIOCPHandle.Count > 0)
+                hIOCP = _qIOCPHandle.Dequeue() as IOCPHandle;
+        }
+        catch (Exception)
+        {
+        }
+#endif
+        // Note:
+        // Checking for (hIOCP != null) is actually not required.
+        // But we are getting a null IOCPHandle object from Lock-Free Queue.
+        // I need to investigate this.
+        //
+        if ((empty == false) && (hIOCP != null))
+        {
+            if (hIOCP.WaitingOnIOCP == true)
+            {
+                hIOCP.SetEvent();
+                break;
+            }
+            else
+            {
+                if (hIOCP.OwningThread.ThreadState != ThreadState.Running)
+                {
+                    // Set the active flag to 2 and decrement the active threads
+                    // so that other waiting threads can process requests
+                    //
+                    int activeTemp = hIOCP._active;
+                    int newActiveState = 2;
+                    if (Interlocked.CompareExchange(ref hIOCP._active, 
+                                    newActiveState, activeTemp) == activeTemp)
+                    {
+                        DecrementActiveThreads();
+                    }
+                }
+                else
+                {
+                    // This is required because, Thread associated with hIOCP
+                    // may have got null out of ManagedIOCP queue, but still 
+                    // not yet reached the QueuIOCPHandle and Wait state. 
+                    // Now we had a dispatch and we enqueued the object and 
+                    // trying to wake up any waiting threads. If we ignore this
+                    // running thread, this may be the only thread for us and we
+                    // will never be able to service this dispatch untill another
+                    // dispatch comes in.
+                    //
+                    hIOCP.SetEvent();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // Do we need to throw this exception ???
+            //
+            // throw new Exception("No threads avialable to handle the dispatch");
+            break;
+        }
+    }
+}This technique provides the second aspect of native Win32 IOCP's concurrency management that guarantees _atleast_ the maximum number of allowed concurrent threads are _always_ notified/awakened to process queued objects, if the number of threads using the Managed IOCP instance is more than the maximum number of allowed concurrent threads.
+
+5. Points of interest
+I published part two of this article "Managed I/O Completion Ports - Part 2" that covers Managed IOCP with Lock-Free Queue and Lock-Free ObjectPool, ManagedIOCP based ThreadPool, and a generic Task Framework to be used by Managed IOCP ThreadPool. Here is the link for the article: Managed I/O Completion Ports - Part 2.
+
+5.1. Managed IOCP and Mono
+Managed IOCP (Sonic.Net assembly, but _not_ demo applications) conforms to core .NET specifications, and can be compiled and used on the Mono .NET runtime. I tested this with Mono 1.1.13.x, and it is working fine on both Windows and Linux platforms (Red Hat Enterprise Linux, RHEL 3).
+
+6. History
+Date: Apr 17, 2006
+Fixed an issue related to the usage of Interlocked.CompareExchange. Thanks to Smith Cameron (LexisNexis organization) for pointing out this issue.
+
+Date: Aug 15, 2005
+Sonic.Net v1.1 - Lock-Free Queue, ObjectPool, ManagedIOCP with revamped (and enhanced) thread choosing algorithm for executing dispatched objects, ManagedIOCP based ThreadPool, and an extensible Task Framework for defining tasks to be executed by the ManagedIOCP ThreadPool.
+
+Date: May 09, 2005
+I fixed a small bug in the Windows demo application (that existed in version 1.0). This bug can allow two threads in the _demo_ application to use the same Label object to display their count. This is fixed in this version (1.1). The bug is fixed in the ManagedIOCPTestForm::StartCmd_Click(...) method.
+
+Date: May 04, 2005
+Sonic.Net v1.0 (class library hosting ManagedIOCP and IOCPHandle class implementations with a .NET synchronized Queue for holding data objects in the Managed IOCP).
+
+7. Software Usage
+This software is provided "as is" with no expressed or implied warranty. I accept no liability for any type of damage or loss that this software may cause.
+
+ 
+License
+This article has no explicit license attached to it but may contain usage terms in the article text or the download files themselves. If in doubt please contact the author via the discussion board below.
+
+A list of licenses authors might use can be found here
+
+About the Author
+P.Adityanand
+
+
+
+Member  Software Professional with 10+ Years of experience in design & development of server products using Microsoft Technologies. 
+
+Woked/Working on server side product development using Managed C++ & C#, including Thread pools, Asynchronous Procedure Calls (APC), Inter Process Communication (IPC) using named pipes, Lock Free data structures in C++ & .Net, etc.
+Occupation:  Architect 
+Location:   India 
+ 

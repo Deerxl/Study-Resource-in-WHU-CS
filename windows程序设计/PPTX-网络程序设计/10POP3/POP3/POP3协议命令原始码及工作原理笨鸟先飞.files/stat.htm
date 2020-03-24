@@ -1,0 +1,28 @@
+var expireDate=new Date();var hours=expireDate.getHours();var minutes=expireDate.getMinutes();var seconds=expireDate.getSeconds();var now=expireDate.getTime();
+function getCookieVal_cnzz (offset){var endstr = document.cookie.indexOf(";",offset);if(endstr==-1){endstr=document.cookie.length;}return unescape(document.cookie.substring(offset,endstr));}
+function GetCookie_cnzz(name){var arg=name+"=";var alen=arg.length;var clen=document.cookie.length;var i=0;
+while(i< clen){
+var j=i+alen;
+if(document.cookie.substring(i,j)==arg)
+return getCookieVal_cnzz(j);
+i=document.cookie.indexOf(" ",i) + 1;
+if(i==0)break;}
+return null;}
+var agt=navigator.userAgent.toLowerCase();
+data='&agt='+escape(agt)+'&r='+escape(document.referrer)+ '&aN='+escape(navigator.appName)+'&lg='+escape(navigator.systemLanguage) + '&OS=' + escape(navigator.platform)+'&aV='+escape(navigator.appVersion)+'&ntime=0.14074700 1193137239';
+cnzz_a=GetCookie_cnzz("cnzz02");
+if(cnzz_a!=null){cnzz_a=parseInt(cnzz_a);cnzz_a=cnzz_a+1;}else{cnzz_a=0;}
+data=data+'&repeatip='+cnzz_a;rtime=GetCookie_cnzz("rtime");ltime=GetCookie_cnzz("ltime");cnzz_eid=GetCookie_cnzz("cnzz_eid");
+if(cnzz_eid == null){cnzz_eid=Math.floor(Math.random()*100000000)+"-"+document.referrer;}
+if(ltime< 1000000){rtime=0;ltime=0;}else{rtime=parseInt(rtime);}
+if(rtime< 1) rtime=0;
+ltime=parseInt(ltime);
+now=parseInt(now);
+if(((now-ltime)>43200*1000)&&(ltime>0))
+rtime=rtime+1 ;
+data=data+'&rtime='+rtime+'&cnzz_eid='+escape(cnzz_eid);
+data=data+'&showp='+escape(screen.width+'x'+screen.height) ;
+document.write('<a href="http://www.cnzz.com/stat/website.php?web_id=275825" target=_blank title="Õ¾³¤Í³¼Æ"><img border=0 hspace=0 vspace=0 src="http://icon.cnzz.com/icon.gif" width=50 height=12></a>');
+document.write('<img src="http://s73.cnzz.com/stat.htm?id=275825'+ data +'" border="0" width="0" height="0">');
+var lefttime=1000*(86400-hours*3600-minutes*60-seconds);expireDate.setTime(expireDate.getTime() + 500*86400);document.cookie="cnzz02="+cnzz_a+"; expires="+expireDate.toGMTString()+ "; path=/";
+var lefttime=1000*86400*182;expireDate.setTime(now + lefttime);document.cookie="rtime="+rtime+";expires="+expireDate.toGMTString()+ ";path=/";document.cookie="ltime="+now+";expires=" + expireDate.toGMTString()+ ";path=/";document.cookie="cnzz_eid="+escape(cnzz_eid)+ ";expires="+expireDate.toGMTString()+";path=/";

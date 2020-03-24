@@ -1,0 +1,5 @@
+D:\stu\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+D:\stu\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+D:\stu\ConsoleApplication1\obj\Debug\ResolveAssemblyReference.cache
+D:\stu\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\stu\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

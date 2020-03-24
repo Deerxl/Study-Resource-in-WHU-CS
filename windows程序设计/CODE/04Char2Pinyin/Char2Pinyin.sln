@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Char2Pinyin", "Char2Pinyin.csproj", "{AC2F658B-4C41-4503-980F-A368C0ADA501}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC2F658B-4C41-4503-980F-A368C0ADA501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2F658B-4C41-4503-980F-A368C0ADA501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2F658B-4C41-4503-980F-A368C0ADA501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2F658B-4C41-4503-980F-A368C0ADA501}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

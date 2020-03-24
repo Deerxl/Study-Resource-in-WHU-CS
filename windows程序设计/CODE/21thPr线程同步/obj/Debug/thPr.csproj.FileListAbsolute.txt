@@ -1,0 +1,8 @@
+D:\xue\thPr\obj\Debug\ResolveAssemblyReference.cache
+D:\xue\thPr\obj\Debug\thPr.FrmMain.resources
+D:\xue\thPr\obj\Debug\thPr.Properties.Resources.resources
+D:\xue\thPr\obj\Debug\thPr.csproj.GenerateResource.Cache
+D:\xue\thPr\obj\Debug\thPr.exe
+D:\xue\thPr\obj\Debug\thPr.pdb
+D:\xue\thPr\thPr.exe
+D:\xue\thPr\thPr.pdb

@@ -1,0 +1,30 @@
+2MSL事件
+
+同意   gogogo(嘿嘿)的说法,你每建立一次连接,如果出现异常一定要关闭这个连接,   
+  否则下次重连的话,还是会用这个连接,这样一旦这个连接出现异常固障的话,你以后每次重新的连接都是错误的,我想这就是出现你现在这个问题的原因   
+  你可以这样写:   
+  try{   
+      string   hostName="100.100.100.100";     
+  //端口     
+  int   port=Int32.Parse("8090");     
+  //得到主机信息     
+  IPHostEntry   ipInfo=Dns.GetHostByName(hostName);     
+  //取得IPAddress[]     
+  IPAddress[]   ipAddr=ipInfo.AddressList;     
+  //得到ip     
+  IPAddress   ip=ipAddr[0];     
+  //组合出远程终结点     
+  IPEndPoint   hostEP=new   IPEndPoint(ip,port);     
+  //socket是form全局对象，现在创建Socket   实例     
+  socket=new   Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);     
+  Connect(hostEP,socket);   
+  Receive(socket);   
+    
+  }   
+        }   
+      catch(Excetpion   ee){   
+              socket.Close();   
+            }   
+      finally{   
+              socket.Close();   
+        }   

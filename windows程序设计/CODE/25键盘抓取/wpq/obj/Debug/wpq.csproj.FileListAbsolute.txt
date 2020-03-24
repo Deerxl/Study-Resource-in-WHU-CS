@@ -1,0 +1,8 @@
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\wpq.exe
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\wpq.pdb
+E:\BOOK\c_pro\24键盘抓取\wpq\bin\Debug\wpq.exe
+E:\BOOK\c_pro\24键盘抓取\wpq\bin\Debug\wpq.pdb
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\ResolveAssemblyReference.cache
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\wpq.Form1.resources
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\wpq.Properties.Resources.resources
+E:\BOOK\c_pro\24键盘抓取\wpq\obj\Debug\wpq.csproj.GenerateResource.Cache

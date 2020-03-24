@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0045)http://www.itfly.org/netbase/pop3/a4978.shtml -->
+<HTML 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>POP3协议命令原始码及工作原理|笨鸟先飞</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content=笨鸟先飞|网络学院:教程,资料,技巧,应用. name=description>
+<META content=" 工作 原理 原始 命令 协议 状态 服务器 处理 邮件 客户机" name=keywords><LINK 
+rev=stylesheet media=all href="POP3协议命令原始码及工作原理笨鸟先飞.files/style.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.3157" name=GENERATOR></HEAD>
+<BODY>
+<TABLE height=67 cellSpacing=0 cellPadding=0 width=960 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=210><A title=笨鸟先飞|网络学院|www.itfly.org 
+      href="http://www.itfly.org/"><IMG height=67 alt=笨鸟先飞|网络学院:教程,资料,技巧,应用. 
+      src="POP3协议命令原始码及工作原理笨鸟先飞.files/logo.gif" width=210 border=0 
+      longDesc=http://www.itfly.org> </A></TD>
+    <TD vAlign=top background=POP3协议命令原始码及工作原理笨鸟先飞.files/q_11.gif>
+      <TABLE height=74 cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD height=55>
+            <TABLE class=nav cellSpacing=0 cellPadding=0 width="100%" 
+              border=0><TBODY>
+              <TR>
+                <TD colSpan=25 height=5></TD></TR>
+              <TR>
+                <TD align=middle height=43><A title=itFly.com|笨鸟先飞|网络学院 
+                  href="http://www.itfly.org/">首 页</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=网络基础 
+                  href="http://www.itfly.org/netbase">网络基础</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=网页制作 
+                  href="http://www.itfly.org/webpage">网页制作</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=图形图象 
+                  href="http://www.itfly.org/graphics">图形图象</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=媒体动画 
+                  href="http://www.itfly.org/media">媒体动画</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=程序开发 
+                  href="http://www.itfly.org/programming">程序开发</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=数据库 
+                  href="http://www.itfly.org/database">数据库</A></TD>
+                <TD align=middle width=8><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=操作系统 
+                  href="http://www.itfly.org/os">操作系统</A></TD>
+                <TD align=middle><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=安全防范 
+                  href="http://www.itfly.org/security">安全防范</A></TD>
+                <TD align=middle><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=黑客技术 
+                  href="http://www.itfly.org/hacker">黑客技术</A></TD>
+                <TD align=middle><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=办公应用 
+                  href="http://www.itfly.org/office">办公应用</A></TD>
+                <TD align=middle><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=应用技巧 
+                  href="http://www.itfly.org/soft">软件资讯</A></TD>
+                <TD align=middle><IMG height=43 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/nav_fg.gif" width=4></TD>
+                <TD align=middle><A title=认证考试 
+                  href="http://www.itfly.org/exam">认证考试</A></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=bottom align=left bgColor=#ffffff height=20>
+            <SCRIPT src=""></SCRIPT>
+          </TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top width=7><IMG height=67 
+      src="POP3协议命令原始码及工作原理笨鸟先飞.files/r.gif" width=7></TD></TR></TBODY></TABLE>
+<SCRIPT language=javascript>
+	function FontZoom(fsize){
+		var ctext = document.getElementById("news_content");
+		ctext.style.fontSize = fsize +"pt";
+	}
+</SCRIPT>
+
+<TABLE cellSpacing=0 cellPadding=0 width=960 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=center bgColor=#ffffff height=30>
+      <TABLE cellSpacing=0 cellPadding=0 width=950 align=center border=0>
+        <TBODY>
+        <TR>
+          <TD class=ok vAlign=center align=middle width=180 bgColor=#eeeeee>
+            <H1>www.itfly.org</H1></TD>
+          <TD vAlign=center align=middle width=30 bgColor=#eeeeee><IMG 
+            height=12 src="POP3协议命令原始码及工作原理笨鸟先飞.files/icon1.gif" width=16></TD>
+          <TD align=left bgColor=#eeeeee height=20>您正在浏览: <A 
+            href="http://www.itfly.org/">主页</A>&gt;<A 
+            href="http://www.itfly.org/netbase/index.shtml">网络基础</A>&gt;<A 
+            href="http://www.itfly.org/netbase/pop3/index.shtml">POP3协议</A>&gt;</TD></TR>
+        <TR>
+          <TD vAlign=center align=middle bgColor=#dddddd colSpan=3 
+        height=1></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT src=""></SCRIPT>
+
+<TABLE cellSpacing=0 cellPadding=0 width=960 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top align=middle width=190 bgColor=#dedede>
+      <TABLE class=title1 cellSpacing=0 cellPadding=0 width=180 align=center 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top background=POP3协议命令原始码及工作原理笨鸟先飞.files/search_title.gif 
+          height=25>
+            <TABLE cellSpacing=0 cellPadding=0 width=170 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2 height=7></TD></TR>
+              <TR>
+                <TD width=35>&nbsp;</TD>
+                <TD align=left><SPAN 
+            class=txt_white>文章搜索</SPAN></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle bgColor=#ffffff>
+            <TABLE cellSpacing=0 cellPadding=0 width=170 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top height=10></TD></TR>
+              <TR>
+                <TD class=cont2 vAlign=top>
+                  <FORM class=search-form id=form1 name=searchform 
+                  action=http://www.itfly.org/plus/search.php method=get>
+                  <P><INPUT class=text_input id=keyword size=18 name=keyword> 
+                  </P>
+                  <P><SPAN class=select_menu1><SELECT class=select_menu2 id=tag 
+                  name=searchtype> <OPTION value=titlekeyword 
+                    selected>标题搜索</OPTION></SELECT> </SPAN><INPUT type=image 
+                  alt=搜索 src="POP3协议命令原始码及工作原理笨鸟先飞.files/search-bt.gif" 
+                  align=top name=imageField> 
+        </P></FORM></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle bgColor=#ffffff 
+      height=3></TD></TR></TBODY></TABLE>
+      <SCRIPT src=""></SCRIPT>
+
+      <TABLE class=title1 cellSpacing=0 cellPadding=0 width=180 align=center 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top background=POP3协议命令原始码及工作原理笨鸟先飞.files/title1.gif 
+          height=25>
+            <TABLE cellSpacing=0 cellPadding=0 width=170 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2 height=7></TD></TR>
+              <TR>
+                <TD width=35>&nbsp;</TD>
+                <TD class=STYLE2 align=left><SPAN 
+                class=txt_white>热点文章</SPAN></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle bgColor=#ffffff>
+            <TABLE cellSpacing=0 cellPadding=0 width=160 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top height=5></TD></TR>
+              <TR>
+                <TD class=cont2 vAlign=top align=left>
+                  <P><A title=RFC1939-POP3协议中文版 
+                  href="http://www.itfly.org/netbase/pop3/a4980.shtml" 
+                  target=_blank>RFC1939-POP3协议中文版</A></P>
+                  <P><A title=POP3协议封装类 
+                  href="http://www.itfly.org/netbase/pop3/a4979.shtml" 
+                  target=_blank>POP3协议封装类</A></P>
+                  <P><A title=怎样接收电子邮件（POP3协议简介） 
+                  href="http://www.itfly.org/netbase/pop3/a4976.shtml" 
+                  target=_blank>怎样接收电子邮件（POP3协议简介）</A></P>
+                  <P><A title=POP3邮局协议-版本3 
+                  href="http://www.itfly.org/netbase/pop3/a4975.shtml" 
+                  target=_blank>POP3邮局协议-版本3</A></P>
+                  <P><A title=什么叫pop3服务 
+                  href="http://www.itfly.org/netbase/pop3/a4973.shtml" 
+                  target=_blank>什么叫pop3服务</A></P>
+                  <P><A title=简析IMAP协议 
+                  href="http://www.itfly.org/netbase/pop3/a4974.shtml" 
+                  target=_blank>简析IMAP协议</A></P>
+                  <P><A title=Exchange如何允许用户从Outlook发送短信息 
+                  href="http://www.itfly.org/netbase/pop3/a4972.shtml" 
+                  target=_blank>Exchange如何允许用户从Outlook发送短信息</A></P>
+                  <P><A title="让Hotmail也支持POP3协议－Hotmail Express" 
+                  href="http://www.itfly.org/netbase/pop3/a4971.shtml" 
+                  target=_blank>让Hotmail也支持POP3协议－Hotmail Express</A></P>
+                  <P><A title=用PHP实现POP3邮件的收取 
+                  href="http://www.itfly.org/netbase/pop3/a4970.shtml" 
+                  target=_blank>用PHP实现POP3邮件的收取</A></P>
+                  <P><A title=用java开发Email工具之接收邮件 
+                  href="http://www.itfly.org/netbase/pop3/a4969.shtml" 
+                  target=_blank>用java开发Email工具之接收邮件</A></P></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle bgColor=#ffffff 
+      height=3></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=180 align=center border=0>
+        <TBODY>
+        <TR>
+          <TD height=5></TD></TR>
+        <TR>
+          <TD bgColor=#ffffff>
+            <SCRIPT src="POP3协议命令原始码及工作原理笨鸟先飞.files/cont-left-02.js"></SCRIPT>
+          </TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top bgColor=#ffffff>
+      <TABLE cellSpacing=0 cellPadding=0 width=760 align=center border=0>
+        <TBODY>
+        <TR>
+          <TD class=news-title vAlign=center align=middle height=30>
+            <H1>POP3协议命令原始码及工作原理</H1></TD></TR>
+        <TR>
+          <TD bgColor=#cccccc height=1></TD></TR>
+        <TR>
+          <TD vAlign=center align=middle bgColor=#f7f7f7 height=25>
+            <P>来源：中国协议分析网&nbsp;&nbsp;&nbsp; 作者：&nbsp;&nbsp;&nbsp; 
+            时间：1970-01-01&nbsp;&nbsp;&nbsp; 字体：[<A 
+            href="javascript:FontZoom(11)">大</A> <A 
+            href="javascript:FontZoom(10)">中</A> <A 
+            href="javascript:FontZoom(9)">小</A>]</P></TD></TR>
+        <TR>
+          <TD class=news_cont vAlign=center align=middle height=5></TD></TR>
+        <TR>
+          <TD vAlign=top height=10>
+            <SCRIPT src="POP3协议命令原始码及工作原理笨鸟先飞.files/cont-right-01.js"></SCRIPT>
+          </TD></TR>
+        <TR>
+          <TD vAlign=top align=left height=300>
+            <DIV class=news-cont id=news_content>
+            <P></P>
+            <P><A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A><A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">协议</A>命令原始码及工作原理 
+            <BR>一 简介： <BR>1. POP适用于C/S结构的脱机模型的电子邮件<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">协议</A>，目前已发展到第三版，称<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>。脱机 
+            模型即不能在线操作，不像IMAP4（netscape支持IMAP4） <BR>2. 
+            当客户机与服务器连接并查询新电子邮件时，被该客户机指定的所有将被下载的邮件 
+            都将被程序下载到客户机，下载后，电子邮件客户机就可以删除或修改任意邮件，而无需与电子邮件服务器进一步交互。 <BR>3. <A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>客户向<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>服务器发送命令并等待响应，<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>命令采用命令行形式，用ASCII码 
+            表示。 服务器响应是由一个单独的命令行组成，或多个命令行组成，响应第一行以ASCII文本 OK或-ERR指出相应 
+            的操作状态是成功还是失败 <BR>4. 在<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A><A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">协议</A>中有三种状态，认可状态，处理状态，和更新状态。 
+            当客户机与服务器建立联系时，一旦客户机提供了自己身份并成功确认，即由认可状态转入处理状态， 
+            在完成相应的操作后客户机发出quit命令，则进入更新状态，更新之后最后重返认可状态。如下图 <BR>等待连接 身份确认 quit命令 
+            <BR>—— |认可|————— |处理|——————|更新| 
+            <BR>|__________________________________| <BR>重返认可状态 <BR>5. 认可状态的命令语句 
+            <BR>一般情况下，大多数现有的<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>客户与服务器执行采用ASCII明文发送用户名和口令，在 
+            认可状态等 待客户连接的情况下，客户发出连接，并由命令user/pass对在网络上发送明文用户名和 口令给服务器 
+            <BR>进行身份确认。一旦确认成功，便转入处理状态。为了避免发送明文口令的问题，有一种新的认证方法，命令为APOP，使用APOP，口令在 
+            传输之前被加密。 当第一次与服务器连接时，<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>服务器向客户机发送一个ASCII码问候，这个问候由一串字符组成对每个客户机是唯一的，与当时的时间有关，然后，客户机把它的纯文本口令附加到从服务器接 
+            收到的字符串之后，然后计算出结果字符串的MD5单出函数消息摘要，客户机把用户名与MD5消息摘要作为APOP命令的参数一起发送出去。目前，大多数windows上的邮件客户软件不支持APOP命令，qpopper支持。 
+            <BR>6. <A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>命令码如下： 
+            <BR>命令 参数 状态 描述 <BR>------------------------------------------ 
+            <BR>USER username 认可 此命令与下面的pass命令若成功，将导致状态转换 <BR>PASS password 认可 
+            <BR>APOP Name,Digest 认可 Digest是MD5消息摘要 
+            <BR>------------------------------------------ <BR>STAT None 处理 
+            请求服务器发回关于邮箱的统计资料，如邮件总数和总字节数 <BR>UIDL [Msg#] 处理 返回邮件的唯一标识符，<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>会话的每个标识符都将是唯一的 
+            <BR>LIST [Msg#] 处理 返回邮件数量和每个邮件的大小 <BR>RETR [Msg#] 处理 返回由参数标识的邮件的全部文本 
+            <BR>DELE [Msg#] 处理 服务器将由参数标识的邮件标记为删除，由quit命令执行 <BR>RSET None 处理 
+            服务器将重置所有标记为删除的邮件，用于撤消DELE命令 <BR>TOP [Msg#] 处理 
+            服务器将返回由参数标识的邮件前n行内容，n必须是正整数 <BR>NOOP None 处理 服务器返回一个肯定的响应 
+            <BR>------------------------------------------ <BR>QUIT None 更新 
+            <BR>a.客户机希望结束这次会话 <BR>b.如果服务器处于‘处理’状态，那么将进入‘更新’状态以删除任何标记为删除的邮 <BR>件 
+            <BR>c.导致由处理状态到更新状态，又重返认可状态的转变 
+            <BR>d.如果这个命令发出时服务器处于‘认可’状态，则结束会话，不进行‘更新’状态。 <BR><BR>7. <A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A><A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">协议</A>在<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">TCP</A>/110端口上等待客户连接请求。 
+            <BR>8. 若密码为明文，我如何监听？ <BR>下面的命令在服务器运行后在屏幕上显示<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>连接及命令发送的过程： 
+            <BR>#sniffit -a -A. -p 110 -b -s 192.169.11.12 <BR>note: 
+            192.168.11.12是客户机IP地址 <BR>你需要事先安装sniffit这个端口监听程序 <BR>9. 
+            考虑这种情况，若客户在收取邮件时，假定为15封信等待接收，但由于线路问题，收 <BR>到第10封时断线了， 
+            <BR>为什么下次收时仍然从第一封开始，也即为什么前10封没有被从服务器上删除掉？ 
+            <BR>任何邮件的删除都必须在quit命令发出后对已标记为删除的邮件执行删除操作，由于中 <BR>途断线，仍处于 
+            <BR>处理状态，没有机会执行quit命令以进行状态转换。 <BR>10. pop3 session is locked by 
+            another session, please wait 10 minutes then t <BR>ry again. 
+            <BR>由于非正常操作引起<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">POP3</A>程序内部机制锁住该次会话。 
+            <BR>11. Foxmail与OE(outlook express)的处理机制的不同。 <BR>a. 
+            假定服务器上有三封邮件等待客户机接收。用foxmail与OE的不同之处在于 
+            <BR>foxmail每收一封标记删除一封，而OE则等全部接收完后再全部标记为删除最后执行qui <BR>t命令。 
+            <BR>Foxmail OE <BR>------------------------------- <BR>retr 1 retr 1 
+            <BR>dele 1 retr 2 <BR>retr 2 retr 3 <BR>dele 2 dele 1 <BR>retr 3 
+            dele 2 <BR>dele 3 dele 3 <BR>quit quit <BR>b. Foxmail的远程邮件<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">管理</A>是非常优秀的<A 
+            href="http://www.itfly.org/netbase/pop3/a4978.shtml#">管理</A>工具，假定服务器上有三封信，对第一封 
+            <BR>，我们不想接收 <BR>想从服务器直接删除；对第二封，想接收但不删除，对第三封，这一次不想接收，分别 <BR>标记后 
+            <BR>最后foxmail发出的命令是 <BR>dele 1 <BR>retr 2 <BR>quit <BR>c. 
+            若没有foxmail，正好有几封很大的信堵住了，我不想接收，想直接删除它，或者想 <BR>查看这两封是谁发的？ 
+            <BR>直接在windows的DOS窗口下用命令行操作,如： <BR># telnet my.isp.net 110 <BR>user 
+            username <BR>pass password <BR>list </P>
+            <P>dele 3 <BR>dele 5 <BR>quit <BR>-- </P>
+            <CENTER>
+            <P class=ok>www.itfly.org</P></CENTER></DIV></TD></TR>
+        <TR>
+          <TD class=news_cont vAlign=top height=10>
+            <SCRIPT src=""></SCRIPT>
+          </TD></TR></TBODY></TABLE>
+      <DIV class=tool-bar><A 
+      href="http://www.itfly.org/netbase/pop3/a4978.shtml#top">返回顶部</A> | <A 
+      onclick=window.print(); 
+      href="http://www.itfly.org/netbase/pop3/a4978.shtml#">打印本页</A> | <A 
+      onclick=window.close(); 
+      href="http://www.itfly.org/netbase/pop3/a4978.shtml#">关闭窗口</A> 
+  </DIV></TD></TR></TBODY></TABLE><IFRAME id=count border=0 name=count 
+marginWidth=0 marginHeight=0 src="POP3协议命令原始码及工作原理笨鸟先飞.files/CAN99R5Z.htm" 
+frameBorder=no width=0 scrolling=no height=0></IFRAME>
+<TABLE cellSpacing=0 cellPadding=0 width=960 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#ffffff height=3></TD></TR>
+  <TR>
+    <TD vAlign=center align=middle bgColor=#ffffff height=25>
+      <TABLE height=25 cellSpacing=0 cellPadding=0 width=950 align=center 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD background=POP3协议命令原始码及工作原理笨鸟先飞.files/footer_bg.gif>
+            <TABLE class=footer cellSpacing=0 cellPadding=0 align=center 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=center align=middle><SPAN class=txt_white><A 
+                  href="http://www.itfly.org/mz.shtml">免责声明</A> | <A 
+                  href="http://www.itfly.org/us.shtml">联系我们</A> | <A 
+                  href="http://www.itfly.org/plus/sitemap.shtml">网站地图</A> | <A 
+                  href="http://www.itfly.org/plus/rssmap.shtml">RSS订阅</A> | 
+                  itlfy.org 2006
+                  <SCRIPT language=JavaScript 
+                  src="POP3协议命令原始码及工作原理笨鸟先飞.files/stat.htm" 
+                  charset=gb2312></SCRIPT>
+                   </SPAN></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD bgColor=#ffffff height=3></TD></TR>
+  <TR>
+    <TD bgColor=#ffffff>
+      <TABLE cellSpacing=0 cellPadding=0 width=950 align=center border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=center 
+align=middle></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT language=JavaScript>
+function killErrors() {
+return true;
+}
+window.onerror = killErrors;
+</SCRIPT>
+
+<SCRIPT></SCRIPT>
+</BODY></HTML>
